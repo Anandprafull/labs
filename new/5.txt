@@ -1,0 +1,67 @@
+#include <stdio.h>
+#include <ctype.h>
+
+#define MAX 20
+
+int stack[MAX], top = -1;
+
+void push(int x)
+{
+    if (top < MAX - 1)
+        stack[++top] = x;
+    else
+        printf("Stack Overflow\n");
+}
+
+int pop()
+{
+    return (top == -1) ? (printf("Stack Underflow\n"), -1) : stack[top--];
+}
+
+int main()
+{
+    char exp[MAX], *e;
+    int n1, n2, n3;
+
+    printf("Enter postfix expression: ");
+    scanf("%s", exp);
+
+    for (e = exp; *e; e++)
+    {
+        if (isdigit(*e))
+            push(*e - '0'); // Convert char to int and push
+        else
+        {
+            n1 = pop();
+            n2 = pop();
+            switch (*e)
+            {
+            case '+':
+                n3 = n2 + n1;
+                break;
+            case '-':
+                n3 = n2 - n1;
+                break;
+            case '*':
+                n3 = n2 * n1;
+                break;
+            case '/':
+                if (n1)
+                    n3 = n2 / n1;
+                else
+                {
+                    printf("Division by zero error\n");
+                    return -1;
+                }
+                break;
+            default:
+                printf("Invalid operator: %c\n", *e);
+                return -1;
+            }
+            push(n3);
+        }
+    }
+
+    printf("\nResult of expression %s = %d\n\n", exp, pop());
+    return 0;
+}
