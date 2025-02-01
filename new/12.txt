@@ -1,0 +1,86 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct tree {
+    int data;
+    struct tree *left, *right;
+} T;
+
+T *root = NULL;
+
+void insert() {
+    int value;
+    printf("Enter value: ");
+    scanf("%d", &value);
+    T *nn = (T *)malloc(sizeof(T));
+    if (!nn) {
+        printf("No space\n");
+        return;
+    }
+    nn->data = value;
+    nn->left = nn->right = NULL;
+
+    if (!root) {
+        root = nn;
+        return;
+    }
+
+    T *temp = root, *parent = NULL;
+    while (1) {
+        parent = temp;
+        if (value < temp->data) {
+            temp = temp->left;
+            if (!temp) {
+                parent->left = nn;
+                return;
+            }
+        } else {
+            temp = temp->right;
+            if (!temp) {
+                parent->right = nn;
+                return;
+            }
+        }
+    }
+}
+
+void preorder(T *node) {
+    if (node) {
+        printf("%d\t", node->data);
+        preorder(node->left);
+        preorder(node->right);
+    }
+}
+
+void inorder(T *node) {
+    if (node) {
+        inorder(node->left);
+        printf("%d\t", node->data);
+        inorder(node->right);
+    }
+}
+
+void postorder(T *node) {
+    if (node) {
+        postorder(node->left);
+        postorder(node->right);
+        printf("%d\t", node->data);
+    }
+}
+
+int main() {
+    int c;
+    while (1) {
+        printf("\n1. Insert\n2. Preorder Traversal\n3. Inorder Traversal\n4. Postorder Traversal\n5. Exit\n");
+        scanf("%d", &c);
+        switch (c) {
+            case 1: insert(); break;
+            case 2: printf("Preorder Traversal: "); preorder(root); break;
+            case 3: printf("Inorder Traversal: "); inorder(root); break;
+            case 4: printf("Postorder Traversal: "); postorder(root); break;
+            case 5: exit(0);
+            default: printf("Invalid choice\n");
+        }
+    }
+    return 0; 
+}
