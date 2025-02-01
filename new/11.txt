@@ -1,0 +1,86 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct node {
+    int data;
+    struct node *next, *prev;
+} N;
+
+N *head = NULL;
+
+void insert() {
+    N *nn = (N *)malloc(sizeof(N));
+    printf("Element: ");
+    scanf("%d", &nn->data);
+    nn->next = nn->prev = NULL;
+
+    if (!head) {
+        head = nn;
+        return;
+    }
+
+    int key;
+    printf("Key: ");
+    scanf("%d", &key);
+    N *temp = head;
+    while (temp && temp->data != key) temp = temp->next;
+
+    if (!temp) {
+        printf("Key not found\n");
+        free(nn);
+        return;
+    }
+
+    nn->prev = temp->prev;
+    temp->prev = nn;
+    nn->next = temp;
+    if (nn->prev) nn->prev->next = nn; 
+    else head = nn;           
+}
+
+void delete() {
+    int ele;
+    printf("Value: ");
+    scanf("%d", &ele);
+    N *temp = head;
+
+    while (temp && temp->data != ele) temp = temp->next;
+
+    if (!temp) {
+        printf("Element not found\n");
+        return;
+    }
+
+    if (temp->prev) temp->prev->next = temp->next;
+    else head = temp->next;
+
+    if (temp->next) temp->next->prev = temp->prev;
+    free(temp);
+}
+
+void display() {
+    if (!head) {
+        printf("Empty\n");
+        return;
+    }
+    printf("List:\n");
+    for (N *temp = head; temp; temp = temp->next) {
+        printf("%d\t", temp->data);
+    }
+    printf("\n");
+}
+
+int main() {
+    int c;
+    while (1) {
+        printf("\n1. Insert\n2. Delete\n3. Display\n4. Exit\n");
+        scanf("%d", &c);
+        switch (c) {
+            case 1: insert(); break;
+            case 2: delete(); break;
+            case 3: display(); break;
+            case 4: exit(0);
+            default: printf("Invalid choice\n");
+        }
+    }
+}
