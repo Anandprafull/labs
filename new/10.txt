@@ -1,0 +1,72 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct node {
+    int data;
+    struct node *next;
+} N;
+
+N *top = NULL;
+
+void push() {
+    int ele;
+    printf("Element: ");
+    scanf("%d", &ele);
+    N *nn = (N *)malloc(sizeof(N));
+    if (!nn) {
+        printf("Overflow\n");
+        return;
+    }
+    nn->data = ele;
+    nn->next = top;
+    top = nn;
+}
+
+void pop() {
+    if (!top) {
+        printf("Underflow\n");
+        return;
+    }
+    N *temp = top;
+    printf("Popped element: %d\n", temp->data);
+    top = temp->next;
+    free(temp);
+}
+
+void display() {
+    if (!top) {
+        printf("Empty stack\n");
+        return;
+    }
+    N *temp = top;
+    printf("Stack elements: ");
+    while (temp) {
+        printf("%d\t", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+void peek() {
+    if (!top) {
+        printf("Empty stack\n");
+        return;
+    }
+    printf("Top element: %d\n", top->data);
+}
+
+int main() {
+    int c;
+    while (1) {
+        printf("\n1. Push\n2. Pop\n3. Display\n4. Peek\n5. Exit\n");
+        scanf("%d", &c);
+        switch (c) {
+            case 1: push(); break;
+            case 2: pop(); break;
+            case 3: display(); break;
+            case 4: peek(); break;
+            case 5: exit(0);
+            default: printf("Invalid choice\n");
+        }
+    }
+}
