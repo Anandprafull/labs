@@ -1,0 +1,74 @@
+#include<stdio.h>
+#include <stdlib.h>
+#define MAX 20
+
+int arr[MAX], n = 0;
+
+void create() {
+    printf("Enter size (Max %d): ", MAX);
+    scanf("%d", &n);
+    printf("Enter elements: ");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);  // Fix: Use &arr[i]
+    }
+}
+
+void display() {
+    printf("Array: ");
+    for (int i = 0; i < n; i++) {
+        printf("%d ", arr[i]);  // Fix: Add space for readability
+    }
+    printf("\n");  // Fix: Add newline for better output formatting
+}
+
+void insert() {
+    if (n == MAX) {
+        printf("Array is full\n");
+        return;
+    }
+    int pos, ele;
+    printf("Enter position (0 to %d): ", n);
+    scanf("%d", &pos);
+    if (pos < 0 || pos > n) {
+        printf("Invalid position\n");
+        return;
+    }
+    printf("Enter element: ");
+    scanf("%d", &ele);
+
+    for (int i = n; i > pos; i--) {
+        arr[i] = arr[i - 1];
+    }
+    arr[pos] = ele;
+    n++;
+}
+
+void delete() {
+    int pos;
+    printf("Enter position (0 to %d): ", n - 1);
+    scanf("%d", &pos);
+    if (pos < 0 || pos >= n) {
+        printf("Invalid position\n");
+        return;
+    }
+    for (int i = pos; i < n - 1; i++) {
+        arr[i] = arr[i + 1];
+    }
+    n--;
+}
+
+int main() {
+    int choice;
+    while (1) {
+        printf("1. Create\n2. Display\n3. Insert\n4. Delete\n5. Exit\n");
+        scanf("%d", &choice);
+        switch (choice) {
+            case 1: create(); break;
+            case 2: display(); break;
+            case 3: insert(); break;
+            case 4: delete(); break;
+            case 5: exit(0);
+            default: printf("Invalid choice.\n");
+        }
+    }
+}
