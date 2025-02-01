@@ -1,0 +1,49 @@
+#include <stdio.h>
+
+int binarySearch(int arr[], int low, int high, int key) {
+    if (low > high) return -1; // Base case: element not found
+    int mid = (low + high) / 2;
+    if (arr[mid] == key) return mid; // Element found
+    return (arr[mid] > key) ? binarySearch(arr, low, mid - 1, key) : binarySearch(arr, mid + 1, high, key);
+}
+
+int main(void) {
+    int n, x;
+    printf("Enter the number of elements: ");
+    scanf("%d", &n);
+    
+    int arr[n]; 
+    printf("Enter %d sorted elements: ", n);
+    for (int i = 0; i < n; i++) scanf("%d", &arr[i]);
+
+    printf("Enter element to search: ");
+    scanf("%d", &x);
+
+    int result = binarySearch(arr, 0, n - 1, x);
+    printf(result == -1 ? "Element not present\n" : "Element present at index %d\n", result);
+
+    return 0;
+}
+
+
+#include <stdio.h>
+
+static int step = 0; // Step counter
+
+void ToH(int n, char source, char spare, char dest) {
+    if (n == 1) {
+        printf("\nStep %d: Move disk %d from %c to %c", ++step, n, source, dest);
+    } else {
+        ToH(n - 1, source, dest, spare);
+        printf("\nStep %d: Move disk %d from %c to %c", ++step, n, source, dest);
+        ToH(n - 1, spare, source, dest);
+    }
+}
+
+int main() {
+    int n;
+    printf("Enter the number of rings: ");
+    scanf("%d", &n);
+    ToH(n, 'A', 'B', 'C'); // Move n rings from A to C using B
+    return 0;
+}
