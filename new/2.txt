@@ -1,0 +1,52 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX 50
+
+typedef struct {
+    char name[MAX];
+    int id;
+    char dept[MAX];
+    float salary;
+} Employee;
+
+float total_salary_by_dept(Employee *emp_array, int n, const char *dept_name) {
+    float total = 0;
+    for (int i = 0; i < n; i++)
+        if (strcmp(emp_array[i].dept, dept_name) == 0)
+            total += emp_array[i].salary;
+    return total;
+}
+
+void display_employees(Employee *emp_array, int n) {
+    for (int i = 0; i < n; i++) {
+        printf("Employee %d: %s, ID: %d, Dept: %s, Salary: %.2f\n", 
+               i + 1, emp_array[i].name, emp_array[i].id, emp_array[i].dept, emp_array[i].salary);
+    }
+}
+
+int main() {
+    int n;
+    char dept_name[MAX];
+    printf("Enter number of employees: ");
+    scanf("%d", &n);
+
+    Employee *emp_array = malloc(n * sizeof(Employee));
+    if (!emp_array) return printf("Memory allocation failed!\n"), 1;
+
+    for (int i = 0; i < n; i++) {
+        printf("Enter name, ID, department, and salary for employee %d: ", i + 1);
+        scanf("%s %d %s %f", emp_array[i].name, &emp_array[i].id, emp_array[i].dept, &emp_array[i].salary);
+    }
+
+    printf("Employee details:\n");
+    display_employees(emp_array, n);
+
+    printf("Enter department name for total salary: ");
+    scanf("%s", dept_name);
+    printf("Total salary in %s: %.2f\n", dept_name, total_salary_by_dept(emp_array, n, dept_name));
+
+    free(emp_array);
+    return 0;
+}
