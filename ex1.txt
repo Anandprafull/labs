@@ -1,0 +1,68 @@
+Experiment 1: Point-to-Point Network with Duplex Links
+This experiment simulates a ring topology using point-to-point duplex links. The goal is to analyze how bandwidth and queue size affect packet drops and throughput. Larger queue sizes can reduce packet drops, and increasing bandwidth improves transfer rate, though physical limitations of nodes might cap actual performance.
+AIM: Simulate a three nodes point to point network with duplex links between them. Set the queue size and vary the bandwidth and find the number of packets dropped.
+NETWORK DESIGN: RING Topology  
+  o	 3 eth4_slip4_multihomed_clients from client_server
+  o	Application and Profile config
+  o	10baseT to connect clients from ethernet
+PARAMETER:
+1. Application Configuration: Right-click and select Edit Attributes. Go to Appn Defns.
+Rows : 1.
+Row0:	
+Name: video
+video conferencing: high-resolution video
+2. Program Configuration:
+Rows : 1.
+Row0:	
+Name: video profile
+Applications
+	Row:1
+	Row0:
+		Name: video
+		Start Time Offset: constant(1)
+Repeatability: 
+Inter-Repetition Time: exponential(0.1)
+No of repetition: unlimited
+Repetition Pattern : Concurrent
+Start Time: constant(1)
+Repeatability :
+Inter-Repetition Time: constant(1)
+No of repetition: exponential(0.1)
+Repetition Pattern :Concurrent
+3. All Multihome Nodes Configuration: Select all similar nodes
+Application Supported Profiles:
+Rows:1
+Row0:
+		Profile name: video profile
+Application Supported Services 
+Rows:1.
+Change “None” to “video.”
+IP Processing Information.
+Memory Size : 8MB.
+Datagram Forwarding Rate : 5000.
+4. Individual Statistics Configuration
+Global Statistics ->IP-> Traffic Dropped
+Node Statistics:->IP-> Traffic Dropped, Traffic Received, Traffic Sent
+5. Running the Simulation for 60 seconds
+Navigate to DES Panel > Results > View Results.
+Go to Object Statistics > Office Network > Node 0.
+Select the “Traffic Sent” checkbox.
+Under Presentation, set “As Is” to “Sample_Sum.”
+On the left, also check: Traffic Dropped, Traffic Received
+Navigate to Global Statistics > IP and check the “Traffic Dropped” checkbox.
+Press the Show button to view the graphs.
+OUPTUT:
+Throughput rate: 5000                                                                  
+Queue Size: 8MB
+Time: 10s
+Throughput rate: 50000                                                                
+Queue Size: 16MB
+Time: 15s
+INTERPRETATION:
+From the above two graphs we can say that on increasing the throughput and queue size the number of packets transferred in the same amount of time, the number of packets transferred is increased in a node.(From last graph)
+But the number of packets received remains constant , this might be due to the physical limitation of the nodes.(From 3rd graph)
+The packets dropped per second decreases dramatically and becomes constant after some time (graphs 1 and 2) , This may be attributed to the larger queue size. Nodes may hold more packets and may drop fewer.
+
+1. Queue Size Increased → More Buffering Capacity
+2. Higher Bandwidth → Faster Transmission 
+ 3. Traffic Smoothing Over Time
