@@ -1,0 +1,73 @@
+Experiment 4: Internet Traffic Simulation (FTP & Telnet)
+Focuses on simulating and analyzing application-level traffic like FTP and TELNET. By adjusting load parameters, the experiment evaluates how increased network demand impacts throughput and performance.
+Aim: Simulate the different types if internet traffic such as FTP, TELNET over a network and analyze the throughput.
+NETWORK DESIGN:  STAR topology.
+Scenario 1:
+•	4 ethernet_wkstn
+•	1 ethernet server
+•	2 ethernet4_slip8_gtwy routers
+•	Application and profile config
+•	Connect both routers with bidirectional PPP_DS1 link
+•	Connect wkstns and server to the outers using 10base_T
+	 
+
+Parameters:
+1.      Configure the Network Application: 
+	Row0:
+		Name: telnet
+		Description:
+			ftp: off
+			remote login : low load
+	Row1:
+		Name: ftp
+		Description:
+			ftp: low load
+			remote login : off
+	For another scenario change load of application.
+For FTP : low load to high load. 
+For Remote login : low load to high load.
+2.      Configure profile
+Rows:2
+Row0
+	Profile name: telnet profile
+	Applications
+	Rows:1
+	Row0
+		Name: telnet
+		Start time : Constant[1]
+Repeatability 
+inter-repetition time : Constant [1] 
+repetition pattern : concurrent
+Number of repetitions : unlimited
+Start time : constant[1]
+Repeatability 
+inter-repetition time : Constant [1] 
+Number of repetitions : unlimited
+repetition pattern : concurrent
+	Row1
+		Name: ftp profile
+		Start time : Constant[1]
+Repeatability 
+inter-repetition time : Constant [1] 
+repetition pattern : concurrent
+Start time : constant[1]
+Repeatability 
+inter-repetition time : Constant [1] 
+Number of repetitions : unlimited
+repetition pattern : concurrent
+3.      Configure network objects : Select similar workstations 
+application :
+ select 2 rows in application supported profiles 
+select 2 rows as telnetprofile and ftpprofile.
+server :
+go to application supported services 
+choose 2 rows as telnet and ftp.
+4.      Selecting Statistics for viewing
+individual statistics->Link Statistics -> point to point, select 2 Throughput(packets/sec) 
+5.      Go to DES -> run/config simulation select 20 seconds apply and run.
+6.      View Results   Right click on the work space and select View Results. « Change As Is to Sample sum
+Interpretation:
+Graph1: Traffic Sent In FTP server we can see consistent increase over time that suggest that the number of FTP sessions increases corresponding to the transmission rate of the packets In Telnet the significantly increasing graph suggests that there’s heavy usage of the remote login and active transmission of data.
+Graph2: Load In FTP server we can see a steady increase that suggest that file transfer is held concurrently over time suggesting a growing demand for file transfers in the network. In Telnet first we observe a sharp increase and then a linear growth.
+Conclusion
+Throughput: The actual rate at which information is sent over a channel. It is measured in bits/second or frames/second. When the load is increased, the data rate is increased, causing more collisions, therefore data loss, which in turn causes retransmissions. So we see due to high traffic throughput is reduced due to collision.
