@@ -7,39 +7,39 @@ NETWORK DESIGN: RING Topology
   o	10baseT to connect clients from ethernet
 PARAMETER:
 1. Application Configuration: Right-click and select Edit Attributes. Go to Appn Defns.
-Rows : 1
-	Row0:	
-		Name: video
-		video conferencing: high-resolution
+	Rows : 1
+		Row0:	
+			Name: video
+			video conferencing: high-resolution
 2. Program Configuration:
-Rows : 1.
-	Row0:	
-		Name: video profile
-		Applications
-			Rows:1
-				Row0:
-					Name: video
-					Start Time Offset: constant(1)
-					Repeatability: 
-						Inter-Repetition Time: exponential(0.1)
-						No of repetition: unlimited
-						Repetition Pattern : Concurrent
-					Start Time: constant(1)
-					Repeatability :
-						Inter-Repetition Time: constant(1)
-						No of repetition: exponential(0.1)
-						Repetition Pattern :Concurrent
+	Rows : 1.
+		Row0:	
+			Name: video profile
+			Applications
+				Rows:1
+					Row0:
+						Name: video
+						Start Time Offset: constant(1)
+						Repeatability: 
+							Inter-Repetition Time: exponential(0.1)
+							No of repetition: unlimited
+							Repetition Pattern : Concurrent
+						Start Time: constant(1)
+						Repeatability :
+							Inter-Repetition Time: constant(1)
+							No of repetition: exponential(0.1)
+							Repetition Pattern :Concurrent
 3. Nodes Configuration: Select all similar nodes
-Application Supported Profiles:
-	Rows:1
-		Row0:
-		Profile name: video profile
-		Application Supported Services 
-			Rows:1.
-			Change “None” to “video.”
-		IP Processing Information.
-			Memory Size : 8MB.
-			Datagram Forwarding Rate : 5000.
+	Application Supported Profiles:
+		Rows:1
+			Row0:
+				Profile name: video profile
+				Application Supported Services 
+					Rows:1.
+						Change “None” to “video.”
+					IP Processing Information.
+						Memory Size : 8MB.
+						Datagram Forwarding Rate : 5000.
 4. Individual Statistics Configuration
 	Global Statistics ->IP-> Traffic Dropped
 	Node Statistics:->IP-> Traffic Dropped, Traffic Received, Traffic Sent
@@ -88,7 +88,7 @@ Traffic Statistics:
 Nodes with higher memory and bandwidth consistently showed better metrics: higher traffic sent and received, and lower traffic dropped.
 Global statistics mirrored node-level results, validating that the entire network benefits from optimized parameters.
 
-📈 Final Interpretation:
+Final Interpretation:
 Larger queue sizes and higher bandwidth collectively enhance network performance by minimizing packet loss and increasing data throughput.
 However, node processing capacity (like datagram forwarding rate) imposes a physical ceiling on performance gains. Beyond a point, just increasing bandwidth or memory will not lead to proportional improvements.
 Thus, for high-resolution video conferencing or similar bandwidth-intensive applications, balanced optimization of all three — queue size, bandwidth, and node capabilities — is essential for achieving efficient and lossless communication in point-to-point duplex networks.
