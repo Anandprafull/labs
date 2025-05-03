@@ -1,72 +1,106 @@
 Experiment 4: Internet Traffic Simulation (FTP & Telnet)
 Focuses on simulating and analyzing application-level traffic like FTP and TELNET. By adjusting load parameters, the experiment evaluates how increased network demand impacts throughput and performance.
 Aim: Simulate the different types if internet traffic such as FTP, TELNET over a network and analyze the throughput.
+
 NETWORK DESIGN:  STAR topology.
-Scenario 1:
-•	4 ethernet_wkstn
-•	1 ethernet server
-•	2 ethernet4_slip8_gtwy routers
-•	Application and profile config
-•	Connect both routers with bidirectional PPP_DS1 link
-•	Connect wkstns and server to the outers using 10base_T
+
+	•	4 ethernet_wkstn
+	•	1 ethernet server
+	•	2 ethernet4_slip8_gtwy routers (PPP_DS1 link)
+	•	Application and profile config
+	•	Connect both routers with bidirectional PPP_DS1 link
+	•	Connect wkstns and server to the outers using 10base_T
 	 
 
 Parameters:
 1.      Configure the Network Application: 
-	Row0:
-		Name: telnet
-		Description:
-			ftp: off
-			remote login : low load
-	Row1:
-		Name: ftp
-		Description:
-			ftp: low load
-			remote login : off
-	For another scenario change load of application.
-For FTP : low load to high load. 
-For Remote login : low load to high load.
+		Row0:
+			Name: telnet
+			Description:
+				ftp: off
+				remote login : low load
+		Row1:
+			Name: ftp
+			Description:
+				ftp: low load
+				remote login : off
+
+For another scenario change load of application.
+	low load to high load. 
+
 2.      Configure profile
-Rows:2
-Row0
-	Profile name: telnet profile
-	Applications
-	Rows:1
-	Row0
-		Name: telnet
-		Start time : Constant[1]
-Repeatability 
-inter-repetition time : Constant [1] 
-repetition pattern : concurrent
-Number of repetitions : unlimited
-Start time : constant[1]
-Repeatability 
-inter-repetition time : Constant [1] 
-Number of repetitions : unlimited
-repetition pattern : concurrent
-	Row1
-		Name: ftp profile
-		Start time : Constant[1]
-Repeatability 
-inter-repetition time : Constant [1] 
-repetition pattern : concurrent
-Start time : constant[1]
-Repeatability 
-inter-repetition time : Constant [1] 
-Number of repetitions : unlimited
-repetition pattern : concurrent
+		Rows:2
+			Row0
+				Profile name: telnet profile
+				Applications
+					Rows:1
+						Row0
+							Name: telnet
+							Start time : Constant[1]
+							Repeatability 
+								inter-repetition time : Constant [1] 
+								repetition pattern : concurrent
+								Number of repetitions : unlimited
+						Start time : constant[1]
+						Repeatability 
+							inter-repetition time : Constant [1] 
+							Number of repetitions : unlimited
+							repetition pattern : concurrent
+						Row1
+							Name: ftp profile
+							Start time : Constant[1]
+							Repeatability 
+								inter-repetition time : Constant [1] 
+								repetition pattern : concurrent
+						Start time : constant[1]
+						Repeatability 
+							inter-repetition time : Constant [1] 
+							Number of repetitions : unlimited
+							repetition pattern : concurrent
 3.      Configure network objects : Select similar workstations 
-application :
- select 2 rows in application supported profiles 
-select 2 rows as telnetprofile and ftpprofile.
-server :
-go to application supported services 
-choose 2 rows as telnet and ftp.
+
+	application :
+ 		select 2 rows in application supported profiles -> telnetprofile and ftpprofile.
+	server :
+		go to application supported services 
+		choose 2 rows as telnet and ftp.
+
 4.      Selecting Statistics for viewing
-individual statistics->Link Statistics -> point to point, select 2 Throughput(packets/sec) 
-5.      Go to DES -> run/config simulation select 20 seconds apply and run.
+		individual statistics->Link Statistics -> point to point, 
+			select 2 Throughput(packets/sec) 
+
+5.      Go to DES -> run/config for 20 seconds .
+
 6.      View Results   Right click on the work space and select View Results. « Change As Is to Sample sum
+
 Interpretation:
+
+Graph 1: Traffic Sent
+	FTP:
+		Shows a steady and consistent rise in the transmission rate.
+		Indicates multiple concurrent file transfer sessions starting over time.
+		Reflects increasing network usage for data-heavy operations.
+	Telnet:
+		Exhibits a sharper and more variable rise, highlighting active remote login sessions.
+		Suggests that telnet traffic grows faster due to continuous keyboard-based interactions.
+
+Graph 2: Load
+	FTP:
+		Load increases linearly and steadily, indicating sustained file transfer operations over time.
+		Represents continuous bandwidth demand from multiple users.
+	Telnet:
+	Starts with a steep rise, followed by a linear increase, indicating quick user login followed by continuous session activity.
+
+Conclusion : Increased Load → Higher Data Rate → More Collisions → Lower Throughput
+	
+When network load increases (e.g., due to FTP high load), throughput initially rises but may degrade due to packet collisions and retransmissions, especially in shared medium topologies.
+
+FTP vs TELNET Behavior:
+
+	FTP is bandwidth-intensive and leads to sustained load.
+
+	Telnet generates interactive, bursty traffic, which is more sensitive to delay but consumes less bandwidth.
+
 Graph1: Traffic Sent In FTP server we can see consistent increase over time that suggest that the number of FTP sessions increases corresponding to the transmission rate of the packets In Telnet the significantly increasing graph suggests that there’s heavy usage of the remote login and active transmission of data.
 Graph2: Load In FTP server we can see a steady increase that suggest that file transfer is held concurrently over time suggesting a growing demand for file transfers in the network. In Telnet first we observe a sharp increase and then a linear growth.
 Conclusion
