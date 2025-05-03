@@ -48,54 +48,56 @@ PARAMETER
 					Repetition Pattern : Concurrent.
 
 3. Configure Servers
-Application Supported Profiles
-	rows : 2
-		Row 0 : 
-			name : “tcp profile”
-		Row 1: 
-			name : “udp profile”
-Application Supported Services
-	Choose ftp application
+	Application Supported Profiles
+		rows : 2
+			Row 0 : 
+				name : “tcp profile”
+			Row 1: 
+				name : “udp profile”
+	Application Supported Services
+		Choose ftp application
 
 4. Configure All Nodes
-Application Supported Profiles
-	rows : 2
-		Row 0 : 
-			name : “tcp profile”
-		Row 1: 
-			name : “udp profile”
-Application Supported Services
-	choose video application
+	Application Supported Profiles
+		rows : 2
+			Row 0 : 
+				name : “tcp profile”
+			Row 1: 
+				name : “udp profile”
+	Application Supported Services
+		choose video application
 
 4. Enable Individual Statistics
-Node Statistics
-	TCP : Traffic Received(Load), Traffic Sent.[packets/sec]
-	UDP : Traffic Received, Traffic Sent.
+	Node Statistics
+		TCP : Traffic Received(Load), Traffic Sent.[packets/sec]
+		UDP : Traffic Received, Traffic Sent.
 
 5. Run Simulation and View Results: Ctrl + R
- Duration : 15 seconds.
+ 	Duration : 15 seconds.
 
 Object Statistics-> Office Network->Node 2 
-enable TCP and UDP : Traffic sent and Traffic Recived
+	enable TCP and UDP : Traffic sent and Traffic Recived
 
 •	In "Presentation," change "As Is" to "Sample Sum."
 •	Enable “overlaid statistics”.
 •	Click "Show" to view the graphs.
 
 INTERPRETATION:
+
+	UDP:
+		Faster due to minimal protocol overhead.
+		High packet loss in bandwidth-intensive applications.
+		Suitable where speed > reliability (live video streaming, gaming).
+
+	TCP:
+		Reliable, ensures delivery and ordering.
+		Lower throughput due to overhead from congestion control and retransmissions.
+		Ideal where reliability > speed (e.g., file transfers, emails).
+
 We can observe the difference in the Y axis in both the output graphs that is it is in the range of 100s for TCP and it is in the range of 10000s for UDP.
 This implies or indicates that there is higher data rate in UDP. And therefore a higher data loss.
 The loss rate is high in UDP especially since it is a video conferencing application with high data rate.
 Whereas in TCP since congestion control is applied the loss rate is less and the graph is more even.
 TCP is more reliable but has higher overhead. And UDP is faster but there is loss of packets.
 
-UDP:
-	Faster due to minimal protocol overhead.
-	High packet loss in bandwidth-intensive applications.
-	Suitable where speed > reliability (live video streaming, gaming).
 
-TCP:
-
-	Reliable, ensures delivery and ordering.
-	Lower throughput due to overhead from congestion control and retransmissions.
-	Ideal where reliability > speed (e.g., file transfers, emails).
