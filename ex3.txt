@@ -11,28 +11,25 @@ SIMULATION PARAMETERS
 	10Base_T links (hub & wkstn)
 
 2. Configuring the IP Attribute Definition
-IP Attribute Definition -> Edit Attribute → IP Ping Parameters
-	Rows:2
-		Row0:
-			Interval:1s
-			Timeout:0.1s
+	IP Attribute Definition -> Edit Attribute → IP Ping Parameters
+		Rows:2
+			Row0:
+				Interval:1s
+				Timeout:0.1s
+
 3. Configuring IP Ping Links: Click on any IP ping link and select similar
-Select any one Ping link and Edit its attributes 
-	Repeatition config:
-		Inter repeatition time:constant[1]
-		Maximum repetition count: unlimited
-		Start time: constant[1]
+	Select any one Ping link and Edit its attributes 
+		Repeatition config:
+			Inter repeatition time:constant[1]
+			Maximum repetition count: unlimited
+			Start time: constant[1]
 4. Choose Individual Statistics:
 	Node Statistics → IP → (Ping Replies, Ping Request Sent, Ping Response Time, Traffic Dropped)
+
 5. Duplicate the scenario. In this scenario remove any link between the hub and workstation.
 6. Run simulation for 20s
 
-
 INTERPRETATION:
-When Node 0 is connected to the Hub, the network works smoothly — There are almost no packet drops, meaning the data is being sent and received properly without loss.
-All the ping messages from Node 0 are successfully received — This indicates a reliable connection when Node 0 is connected to the Hub.
-When Node 0 is disconnected from the Hub, communication fails — All packets sent from Node 0 are lost (dropped), and the overall network performance decreases significantly.
-This behavior is typical in a Star topology — In a star topology, all nodes (like Node 0) connect to a central device (the Hub). So, if Node 0 loses its direct connection to the Hub, it has no alternate route to send or receive data. That’s why communication breaks down completely in the second scenario.
 
 With All Links Connected (Node 0 connected to Hub):
 
@@ -45,5 +42,10 @@ With Node 0 Disconnected from Hub:
 	All ping packets from Node 0 are dropped.
 	Node 0 becomes completely isolated from the network.
 	The rest of the network may continue functioning, but Node 0 experiences total communication failure.
+
+When Node 0 is connected to the Hub, the network works smoothly — There are almost no packet drops, meaning the data is being sent and received properly without loss.
+All the ping messages from Node 0 are successfully received — This indicates a reliable connection when Node 0 is connected to the Hub.
+When Node 0 is disconnected from the Hub, communication fails — All packets sent from Node 0 are lost (dropped), and the overall network performance decreases significantly.
+This behavior is typical in a Star topology — In a star topology, all nodes (like Node 0) connect to a central device (the Hub). So, if Node 0 loses its direct connection to the Hub, it has no alternate route to send or receive data. That’s why communication breaks down completely in the second scenario.
 
 
