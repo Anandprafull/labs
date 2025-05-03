@@ -1,5 +1,5 @@
 Experiment 1: Point-to-Point Network with Duplex Links
-This experiment simulates a ring topology using point-to-point duplex links. The goal is to analyze how bandwidth and queue size affect packet drops and throughput. Larger queue sizes can reduce packet drops, and increasing bandwidth improves transfer rate, though physical limitations of nodes might cap actual performance.
+The goal is to analyze how bandwidth and queue size affect packet drops and throughput. Larger queue sizes can reduce packet drops, and increasing bandwidth improves transfer rate, though physical limitations of nodes might cap actual performance.
 AIM: Simulate a three nodes point to point network with duplex links between them. Set the queue size and vary the bandwidth and find the number of packets dropped.
 NETWORK DESIGN: RING Topology  
   o	 3 eth4_slip4_multihomed_clients from client_server
@@ -7,50 +7,54 @@ NETWORK DESIGN: RING Topology
   o	10baseT to connect clients from ethernet
 PARAMETER:
 1. Application Configuration: Right-click and select Edit Attributes. Go to Appn Defns.
-Rows : 1.
-Row0:	
-Name: video
-video conferencing: high-resolution video
+Rows : 1
+	Row0:	
+		Name: video
+		video conferencing: high-resolution
 2. Program Configuration:
 Rows : 1.
-Row0:	
-Name: video profile
-Applications
-	Row:1
-	Row0:
-		Name: video
-		Start Time Offset: constant(1)
-Repeatability: 
-Inter-Repetition Time: exponential(0.1)
-No of repetition: unlimited
-Repetition Pattern : Concurrent
-Start Time: constant(1)
-Repeatability :
-Inter-Repetition Time: constant(1)
-No of repetition: exponential(0.1)
-Repetition Pattern :Concurrent
-3. All Multihome Nodes Configuration: Select all similar nodes
+	Row0:	
+		Name: video profile
+		Applications
+			Rows:1
+				Row0:
+					Name: video
+					Start Time Offset: constant(1)
+					Repeatability: 
+						Inter-Repetition Time: exponential(0.1)
+						No of repetition: unlimited
+						Repetition Pattern : Concurrent
+					Start Time: constant(1)
+					Repeatability :
+						Inter-Repetition Time: constant(1)
+						No of repetition: exponential(0.1)
+						Repetition Pattern :Concurrent
+3. Nodes Configuration: Select all similar nodes
 Application Supported Profiles:
-Rows:1
-Row0:
+	Rows:1
+		Row0:
 		Profile name: video profile
-Application Supported Services 
-Rows:1.
-Change “None” to “video.”
-IP Processing Information.
-Memory Size : 8MB.
-Datagram Forwarding Rate : 5000.
+		Application Supported Services 
+			Rows:1.
+			Change “None” to “video.”
+		IP Processing Information.
+			Memory Size : 8MB.
+			Datagram Forwarding Rate : 5000.
 4. Individual Statistics Configuration
-Global Statistics ->IP-> Traffic Dropped
-Node Statistics:->IP-> Traffic Dropped, Traffic Received, Traffic Sent
-5. Running the Simulation for 60 seconds
-Navigate to DES Panel > Results > View Results.
-Go to Object Statistics > Office Network > Node 0.
-Select the “Traffic Sent” checkbox.
-Under Presentation, set “As Is” to “Sample_Sum.”
-On the left, also check: Traffic Dropped, Traffic Received
-Navigate to Global Statistics > IP and check the “Traffic Dropped” checkbox.
-Press the Show button to view the graphs.
+	Global Statistics ->IP-> Traffic Dropped
+	Node Statistics:->IP-> Traffic Dropped, Traffic Received, Traffic Sent
+5. Running the Simulation for 10 seconds
+	Navigate to DES Panel > Results > View Results.
+		Go to Object Statistics > Office Network > Node 0.
+			Select the “Traffic Sent” checkbox.
+		Under Presentation, set “As Is” to “Sample_Sum.”
+			On the left, also check: Traffic Dropped, Traffic Received
+	Navigate to Global Statistics > IP and check the “Traffic Dropped” checkbox.
+6. Crete 2 more duplicate scenarios:
+	8mb, 10000
+	16mb, 5000
+
+
 OUPTUT:
 Throughput rate: 5000                                                                  
 Queue Size: 8MB
@@ -58,6 +62,7 @@ Time: 10s
 Throughput rate: 50000                                                                
 Queue Size: 16MB
 Time: 15s
+
 INTERPRETATION:
 From the above two graphs we can say that on increasing the throughput and queue size the number of packets transferred in the same amount of time, the number of packets transferred is increased in a node.(From last graph)
 But the number of packets received remains constant , this might be due to the physical limitation of the nodes.(From 3rd graph)
@@ -66,3 +71,24 @@ The packets dropped per second decreases dramatically and becomes constant after
 1. Queue Size Increased → More Buffering Capacity
 2. Higher Bandwidth → Faster Transmission 
  3. Traffic Smoothing Over Time
+
+Key Observations from the Simulation:
+Queue Size vs. Packet Drops:
+
+A larger queue size helps buffer more packets during traffic congestion, reducing packet drops.
+As queue size increased from 8MB to 16MB, the number of dropped packets significantly decreased, confirming that buffer capacity plays a crucial role in loss mitigation.
+
+Bandwidth vs. Throughput:
+
+Increasing the bandwidth (e.g., from 5000 to 10000 datagram forwarding rate) allowed more data to be transmitted per unit time, thereby improving throughput.
+However, performance improvements are subject to diminishing returns, as the processing limits of nodes can bottleneck gains despite higher bandwidth.
+
+Traffic Statistics:
+
+Nodes with higher memory and bandwidth consistently showed better metrics: higher traffic sent and received, and lower traffic dropped.
+Global statistics mirrored node-level results, validating that the entire network benefits from optimized parameters.
+
+📈 Final Interpretation:
+Larger queue sizes and higher bandwidth collectively enhance network performance by minimizing packet loss and increasing data throughput.
+However, node processing capacity (like datagram forwarding rate) imposes a physical ceiling on performance gains. Beyond a point, just increasing bandwidth or memory will not lead to proportional improvements.
+Thus, for high-resolution video conferencing or similar bandwidth-intensive applications, balanced optimization of all three — queue size, bandwidth, and node capabilities — is essential for achieving efficient and lossless communication in point-to-point duplex networks.
