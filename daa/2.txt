@@ -1,7 +1,5 @@
-#include <chrono>
-#include <iostream>
-#include <vector>
-#include <iomanip>
+#include <bits/stdc++.h>
+using namespace chrono;
 using namespace std;
 
 // Bubble Sort function
