@@ -1,0 +1,66 @@
+#include <bits/stdc++.h>
+using namespace std;
+using namespace chrono;
+
+void addEdge(vector<int> adj[], int u, int v) {
+    adj[u].push_back(v);
+    adj[v].push_back(u);
+}
+
+void BFS(vector<int> adj[], int V, int start) {
+    vector<bool> visited(V + 1, false);
+    vector<int> parent(V + 1, -1);
+    queue<int> q;
+
+    visited[start] = true;
+    q.push(start);
+
+    cout << "BFS Traversal: ";
+    while (!q.empty()) {
+        int current = q.front();
+        q.pop();
+        cout << current << " ";
+        for (int neighbor : adj[current]) {
+            if (!visited[neighbor]) {
+                visited[neighbor] = true;
+                parent[neighbor] = current;
+                q.push(neighbor);
+            }
+        }
+    }
+
+    cout << "\nBFS Spanning Tree:\n";
+    for (int i = 1; i <= V; i++) {
+        if (parent[i] != -1) {
+            cout << "Parent of " << i << ": " << parent[i] << endl;
+        }
+    }
+}
+
+int main() {
+    int V, E;
+    cout << "Enter vertices and edges: ";
+    cin >> V >> E;
+
+    vector<int> adj[V + 1];
+    cout << "Enter edges (u v):\n";
+    for (int i = 0; i < E; i++) {
+        int u, v;
+        cin >> u >> v;
+        addEdge(adj, u, v);
+    }
+
+    int start;
+    cout << "Enter starting node: ";
+    cin >> start;
+
+    auto start_time = high_resolution_clock::now();
+    BFS(adj, V, start);
+    auto end_time = high_resolution_clock::now();
+
+    cout << "Execution Time: " 
+         << duration_cast<nanoseconds>(end_time - start_time).count() 
+         << " ns\n";
+
+    return 0;
+}
