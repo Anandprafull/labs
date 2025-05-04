@@ -1,0 +1,44 @@
+
+                            4
+1. Pivot Selection: Choose a pivot element from the array. This pivot is used to
+divide the array into two parts.
+2. Partitioning: Rearrange the array so that elements smaller than the pivot are on
+the left side and elements greater than the pivot are on the right side.
+3. Recursion: Repeat the process on the left and right subarrays until they contain
+only one element each (which are inherently sorted).
+                            5
+Algorithm for BFS:
+1. Initialize an empty set or list visited to keep track of visited nodes.
+2. Initialize an empty queue Q.
+3. Enqueue the start node into the queue.
+4. Mark the start node as visited.
+5. While the queue is not empty:
+a. Dequeue a node current from the front of the queue.
+b. Print the current node.
+c. For each neighbour node of the current node:
+i. If the neighbour is not visited:
+1. Mark it as visited.
+2. Enqueue the neighbour into the queue.
+
+6. Repeat until all reachable nodes are visited.
+7. Displaying the BFS traversal order: To display the BFS traversal order, you
+just need to print each node as you visit it during the BFS traversal.
+                                6
+1. Start from a source node (or any unvisited node in a disconnected graph).
+2. Mark the current node as visited.
+3. Recursively visit all unvisited adjacent nodes.
+4. Backtrack when no unvisited adjacent nodes remain.      
+                                7
+1. Do DFS for each unvisited node.
+2. After visiting all descendants of a node, add the node to the stack (POST-
+ORDER)
+3. At the end, reverse the stack to get the topological sorted order
+
+1. Calculate in-degree (number of incoming edges) for each node
+2. Add all nodes with in-degree 0 to a queue.
+3. While queue is not empty,
+a. Remove the node from the queue (or) dequeue the node
+b. Add it to the result set
+c. Now, reduce the in-degree of the neighbours
+d. If the in-degree of the neighbours becomes zero, add it to the queue
+e. The final topological order is obtained when the queue becomes empty.                                          
