@@ -6,6 +6,7 @@ divide the array into two parts.
 the left side and elements greater than the pivot are on the right side.
 3. Recursion: Repeat the process on the left and right subarrays until they contain
 only one element each (which are inherently sorted).
+Best/avg: o(nlogn) worst: o(n2)
                             5
 Algorithm for BFS:
 1. Initialize an empty set or list visited to keep track of visited nodes.
@@ -13,12 +14,12 @@ Algorithm for BFS:
 3. Enqueue the start node into the queue.
 4. Mark the start node as visited.
 5. While the queue is not empty:
-a. Dequeue a node current from the front of the queue.
-b. Print the current node.
-c. For each neighbour node of the current node:
-i. If the neighbour is not visited:
-1. Mark it as visited.
-2. Enqueue the neighbour into the queue.
+  a. Dequeue a node current from the front of the queue.
+  b. Print the current node.
+  c. For each neighbour node of the current node:
+    i. If the neighbour is not visited:
+      1. Mark it as visited.
+      2. Enqueue the neighbour into the queue.
 
 6. Repeat until all reachable nodes are visited.
 7. Displaying the BFS traversal order: To display the BFS traversal order, you
