@@ -1,0 +1,90 @@
+<!-- Resume.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Resume</title>
+    <link rel="stylesheet" href="Resume.css">
+    <style>
+        .internal-style {
+            background-color: #f0f8ff;
+            padding: 20px;
+            margin: 10px;
+        }
+        .custom-cursor {
+            cursor: url('cursor.png'), auto;
+        }
+    </style>
+</head>
+<body>
+<div class="custom-cursor">
+    <header>
+        <h1 style="color: hotpink;">Student Name</h1>
+        <p class="internal-style">Email: student@example.com | Phone: 123-456-7890</p>
+    </header>
+    <section id="education">
+        <h2 style="font-style: italic;">Education</h2>
+        <p>Bachelor of Science in Computer Engineering</p>
+    </section>
+    <section id="skills">
+        <h2 style="font-style: italic;">Skills</h2>
+        <ul style="list-style-type: none;">
+            <li style="display: inline; margin: 5px; padding: 10px 20px; border: medium double black;">HTML</li>
+            <li style="display: inline; margin: 5px; padding: 10px 20px; border: medium double black;">CSS</li>
+            <li style="display: inline; margin: 5px; padding: 10px 20px; border: medium double black;">JavaScript</li>
+        </ul>
+    </section>
+    <section id="experience">
+        <h2 style="font-style:italic;">Experience</h2>
+        <p>Intern at XYZ Company</p>
+    </section>
+    <section id="contact">
+        <h2 style="font-style:italic;">Contact</h2>
+        <a href="mailto:student@example.com">Email Me</a>
+    </section>
+</div>
+</body>
+</html>
+/* Resume.css */
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('background.jpg');
+    background-size: cover;
+    color: #333;
+    background-color: #c9a1c3;
+}
+
+header {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    text-align: center;
+}
+
+h2 {
+    font-size: 1.5em;
+    color: #0066cc;
+}
+
+a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #004080;
+}
+
+/* Box model example */
+#education, #skills, #experience, #contact {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin: 20px;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+/* Custom cursor */
+.custom-cursor {
+    cursor: url('cursor.png'), auto;
+}
