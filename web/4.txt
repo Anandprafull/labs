@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Calendar Month</title>
+<style>
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+th {
+    background-color: #f2f2f2;
+}
+</style>
+</head>
+<body>
+<h1>Select Month and Year</h1>
+<form>
+    <label for="month">Month:</label>
+    <select id="month" name="month">
+        <option value="0">January</option>
+        <option value="1">February</option>
+        <option value="2">March</option>
+        <option value="3">April</option>
+        <option value="4">May</option>
+        <option value="5">June</option>
+        <option value="6">July</option>
+        <option value="7">August</option>
+        <option value="8">September</option>
+        <option value="9">October</option>
+        <option value="10">November</option>
+        <option value="11">December</option>
+    </select>
+    <label for="year">Year:</label>
+    <select id="year" name="year"></select>
+    <button type="button" onclick="generateCalendar()">Generate Calendar</button>
+</form>
+
+<div id="calendar"></div>
+
+<script>
+const yearSelect = document.getElementById('year');
+const currentYear = new Date().getFullYear();
+for (let year = currentYear - 50; year <= currentYear + 50; year++) {
+    const option = document.createElement('option');
+    option.value = year;
+    option.text = year;
+    yearSelect.appendChild(option);
+}
+yearSelect.value = currentYear;
+
+function generateCalendar() {
+    const month = document.getElementById('month').value;
+    const year = document.getElementById('year').value;
+    const daysInMonth = new Date(year, parseInt(month) + 1, 0).getDate();
+    const firstDay = new Date(year, month, 1).getDay();
+    let table = '<table>';
+    table += '<tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>';
+    let day = 1;
+    for (let i = 0; i < 6; i++) { // Maximum 6 rows
+        table += '<tr>';
+        for (let j = 0; j < 7; j++) {
+            if ((i === 0 && j < firstDay) || day > daysInMonth) {
+                table += '<td></td>';
+            } else {
+                table += `<td>${day}</td>`;
+                day++;
+            }
+        }
+        table += '</tr>';
+        if (day > daysInMonth) break;
+    }
+    table += '</table>';
+    document.getElementById('calendar').innerHTML = table;
+}
+</script>
+</body>
+</html>
