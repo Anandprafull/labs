@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculator</title>
+<style>
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+}
+.calculator {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 300px;
+}
+.calculator-display {
+    background-color: #222;
+    color: #fff;
+    font-size: 2em;
+    padding: 10px;
+    text-align: right;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    height: 60px;
+}
+.calculator-buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 10px;
+}
+.btn {
+    background-color: #eee;
+    border: none;
+    border-radius: 5px;
+    padding: 20px;
+    font-size: 1.5em;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.btn:hover {
+    background-color: #ddd;
+}
+.btn:active {
+    background-color: #ccc;
+}
+</style>
+</head>
+<body>
+<div class="calculator">
+    <div class="calculator-display" id="display">0</div>
+    <div class="calculator-buttons">
+        <button class="btn" onclick="clearDisplay()">C</button>
+        <button class="btn" onclick="deleteLast()">DEL</button>
+        <button class="btn" onclick="appendToDisplay('/')">/</button>
+        <button class="btn" onclick="appendToDisplay('*')">*</button>
+        <button class="btn" onclick="appendToDisplay('7')">7</button>
+        <button class="btn" onclick="appendToDisplay('8')">8</button>
+        <button class="btn" onclick="appendToDisplay('9')">9</button>
+        <button class="btn" onclick="appendToDisplay('-')">-</button>
+        <button class="btn" onclick="appendToDisplay('4')">4</button>
+        <button class="btn" onclick="appendToDisplay('5')">5</button>
+        <button class="btn" onclick="appendToDisplay('6')">6</button>
+        <button class="btn" onclick="appendToDisplay('+')">+</button>
+        <button class="btn" onclick="appendToDisplay('1')">1</button>
+        <button class="btn" onclick="appendToDisplay('2')">2</button>
+        <button class="btn" onclick="appendToDisplay('3')">3</button>
+        <button class="btn" onclick="calculateResult()">=</button>
+        <button class="btn" onclick="appendToDisplay('0')">0</button>
+        <button class="btn" onclick="appendToDisplay('.')">.</button>
+    </div>
+</div>
+<script>
+function appendToDisplay(value) {
+    const display = document.getElementById('display');
+    if (display.innerText === '0' || display.innerText === 'Error') {
+        display.innerText = value;
+    } else {
+        display.innerText += value;
+    }
+}
+function clearDisplay() {
+    document.getElementById('display').innerText = '0';
+}
+function deleteLast() {
+    const display = document.getElementById('display');
+    display.innerText = display.innerText.slice(0, -1);
+    if (display.innerText === '' || display.innerText === '-') {
+        display.innerText = '0';
+    }
+}
+function calculateResult() {
+    const display = document.getElementById('display');
+    try {
+        display.innerText = eval(display.innerText);
+    } catch {
+        display.innerText = 'Error';
+    }
+}
+</script>
+</body>
+</html>
