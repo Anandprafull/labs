@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Squares and Cubes Table</title>
+</head>
+<body onload="sc()">
+<script>
+function sc() {
+    let rng = prompt('Enter the range (e.g., 2-7)');
+    let res = rng.split("-");
+    if (res.length != 2) {
+        alert("Invalid range");
+        return;
+    }
+    let first = parseInt(res[0]);
+    let second = parseInt(res[1]);
+    if (isNaN(first) || isNaN(second) || first > second) {
+        alert("Invalid range");
+        return;
+    }
+    let str = "<table border=2><tr><th>Number</th><th>Square</th><th>Cube</th></tr>";
+    for (let i = first; i <= second; i++) {
+        str += "<tr><td>" + i + "</td><td>" + (i*i) + "</td><td>" + (i*i*i) + "</td></tr>";
+    }
+    str += "</table>";
+    document.write(str);
+}
+</script>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Text Growing and Shrinking</title>
+</head>
+<body onload="fnts()">
+<p id="p1" style="font-size:12pt; color:black;">TEXT-GROWING</p>
+<script>
+var grow = true;
+function fnts() {
+    let fntsize = document.getElementById("p1").style.fontSize;
+    document.getElementById("p1").style.color = "red";
+    let ifntsize = parseInt(fntsize);
+    window.setTimeout(fntGS, 100, ifntsize);
+}
+function fntGS(ifs) {
+    let p = document.getElementById("p1");
+    if (grow) {
+        ifs = ifs + 1;
+        if (ifs <= 50) {
+            p.style.fontSize = ifs + "pt";
+        } else {
+            grow = false;
+            p.style.color = "blue";
+            p.innerHTML = "TEXT-SHRINKING";
+        }
+    } else {
+        ifs = ifs - 1;
+        if (ifs < 5) return;
+        p.style.fontSize = ifs + "pt";
+    }
+    window.setTimeout(fntGS, 100, ifs);
+}
+</script>
+</body>
+</html>
