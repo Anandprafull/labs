@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Currency Converter</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f0f4f8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.converter {
+    background: white;
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    max-width: 400px;
+    width: 100%;
+}
+.converter h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+label {
+    font-weight: bold;
+    margin-top: 10px;
+    display: block;
+}
+select, input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+button {
+    background: #007bff;
+    color: white;
+    padding: 10px;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+button:hover {
+    background: #0056b3;
+}
+.result {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    color: green;
+}
+</style>
+</head>
+<body>
+<div class="converter">
+    <h2>Currency Converter</h2>
+    <label for="amount">Amount</label>
+    <input type="number" id="amount" placeholder="Enter amount" />
+    <label for="from">From Currency</label>
+    <select id="from">
+        <option value="USD">USD</option>
+        <option value="EUR">EUR</option>
+        <option value="INR">INR</option>
+        <option value="JPY">JPY</option>
+    </select>
+    <label for="to">To Currency</label>
+    <select id="to">
+        <option value="USD">USD</option>
+        <option value="EUR">EUR</option>
+        <option value="INR">INR</option>
+        <option value="JPY">JPY</option>
+    </select>
+    <button onclick="convert()">Convert</button>
+    <div class="result" id="result"></div>
+</div>
+<script>
+const rates = {
+    USD: { USD: 1, EUR: 0.91, INR: 83.2, JPY: 155.1 },
+    EUR: { USD: 1.1, EUR: 1, INR: 91.4, JPY: 170.3 },
+    INR: { USD: 0.012, EUR: 0.011, INR: 1, JPY: 1.86 },
+    JPY: { USD: 0.0064, EUR: 0.0059, INR: 0.54, JPY: 1 }
+};
+function convert() {
+    const amount = parseFloat(document.getElementById('amount').value);
+    const from = document.getElementById('from').value;
+    const to = document.getElementById('to').value;
+    if (isNaN(amount) || amount <= 0) {
+        document.getElementById('result').innerText = 'Please enter a valid amount.';
+        return;
+    }
+    const rate = rates[from][to];
+    const converted = (amount * rate).toFixed(2);
+    document.getElementById('result').innerText = `${amount} ${from} = ${converted} ${to}`;
+}
+</script>
+</body>
+</html>
