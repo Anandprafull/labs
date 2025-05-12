@@ -1,0 +1,72 @@
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tables</title>
+</head>
+<body onload="sc()">
+    <script>
+        function sc(){
+            let rng=prompt('Enter the range');
+            let res=rng.split("-");
+            let first=parseInt(res[0]);
+            let second=parseInt(res[1]);
+            let str="<table border=2><tr><th>Number</th><th>Square</th><th>Cube</th></tr>";
+            for(let i=first;i<=second;i++){
+                str+="<tr><td>"+i+"</td><td>"+(i*i)+"</td><td>"+(i*i*i)+"</td></tr>";
+            }
+            str+="</table>";
+            document.write(str);
+        }
+    </script>
+</body>
+</html> 
+-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Grow and shrink</title>
+</head>
+<body onload="fnts()">
+    <p id="p1" style="color:black;font-size:12px;">TEXT-GROWING</p>
+    <script>
+        var grow=true;
+        function fnts(){
+            let fntsize=document.getElementById("p1").style.fontSize;
+            document.getElementById("p1").style.color="Red";
+            let ifntsize=parseInt(fntsize);
+            window.setTimeout(fntGS,100,ifntsize);
+        }
+        function fntGS(ifs){
+            let p=document.getElementById("p1");
+            if(grow){
+                ifs=ifs+1;
+                if(ifs<=50){
+                    p.style.fontSize=ifs+"pt";
+                } else{
+                    grow=false;
+                    p.style.color="blue";
+                    p.innerText="TEXT-SHRINKING";
+                }
+            } else{
+                ifs=ifs-1;
+                if(ifs<5){
+                    grow=true;
+                    p.style.color="Red";
+                    p.innerText="TEXT-GROWING";
+                    ifs=5;
+                }
+                p.style.fontSize=ifs+"pt";
+            }
+            window.setTimeout(fntGS,100,ifs)
+        }
+    </script>
+    
+</body>
+</html>
