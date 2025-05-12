@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Online Exam</title>
+<script>
+function checkExam(f) {
+  let score = 0;
+  // Validation: ensure all answered
+  for(let i=1;i<=4;i++) {
+    if(!f['q'+i].value) {
+      document.getElementById('score').innerText = 'Please answer all questions!';
+      return false;
+    }
+  }
+  if(f.q1.value=="java") score++;
+  if(f.q2.value=="object") score++;
+  if(f.q3.value=="awt") score++;
+  if(f.q4.value=="multiple") score++;
+  document.getElementById('score').innerText = "Your Score: "+score+"/4";
+  alert("Your Score: "+score+"/4");
+  return false;
+}
+</script>
+</head>
+<body>
+<form onsubmit="return checkExam(this)">
+<p>1. Platform independent language?
+  <input type="radio" name="q1" value="c">C
+  <input type="radio" name="q1" value="cpp">C++
+  <input type="radio" name="q1" value="java">Java
+  <input type="radio" name="q1" value="python">Python
+</p>
+<p>2. Class of all classes in Java?
+  <input type="radio" name="q2" value="object">Object
+  <input type="radio" name="q2" value="math">Math
+  <input type="radio" name="q2" value="system">System
+  <input type="radio" name="q2" value="lang">Lang
+</p>
+<p>3. Frame class is in which package?
+  <input type="radio" name="q3" value="awt">AWT
+  <input type="radio" name="q3" value="applet">Applet
+  <input type="radio" name="q3" value="lang">Lang
+  <input type="radio" name="q3" value="swing">Swing
+</p>
+<p>4. Java does not support?
+  <input type="radio" name="q4" value="inheritance">Inheritance
+  <input type="radio" name="q4" value="multiple">Multiple Inheritance
+  <input type="radio" name="q4" value="polymorphism">Polymorphism
+  <input type="radio" name="q4" value="encapsulation">Encapsulation
+</p>
+<input type="submit" value="Submit">
+<input type="reset" value="Reset">
+</form>
+<div id="score" style="color:blue;font-weight:bold;"></div>
+</body>
+</html>
