@@ -1,0 +1,22 @@
+; kernel.asm
+[BITS 16]
+[ORG 0x8000]
+
+start:
+    mov ah, 0x0E
+    mov si, msg
+.print:
+    lodsb
+    or al, al
+    jz get_key
+    int 0x10
+    jmp .print
+
+get_key:
+    mov ah, 0x00
+    int 0x16
+    mov ah, 0x0E
+    int 0x10
+    jmp $
+
+msg db "Welcome to My Kernel! Press a key: ", 0
