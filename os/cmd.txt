@@ -1,0 +1,4 @@
+nasm -f bin bootloader.asm -o bootloader.bin
+nasm -f bin kernel.asm -o kernel.bin
+cat bootloader.bin kernel.bin > os-image.bin
+qemu-system-x86_64 -drive format=raw,file=os-image.bin
