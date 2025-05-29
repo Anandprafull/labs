@@ -1,0 +1,49 @@
+Step 1: Create a New Project
+Start a new project in the network simulation software.
+
+Step 2: Create Network Topology
+Use Rapid Configuration → Choose Star topology.
+
+Set:
+
+Central node: ethernet16_hub
+
+Peripheral nodes: Ethernet station
+
+Links: 10baset
+
+A visual star topology will be created.
+
+Step 3: Configure Ethernet Stations
+Select All Ethernet Stations → Right-click → Edit Attributes.
+
+Set Traffic Parameters:
+
+Packet size, generation rate (inter-arrival time), destination, etc.
+
+Apply changes → Click OK.
+
+Step 4: Choose Statistics for Analysis
+Right-click in workspace → Choose Individual Statistics.
+
+Select:
+
+Bit Error Rate: bit error per packet
+
+Throughput: throughput [packets/sec]
+
+Confirm selection.
+
+Step 5: Run the Simulation
+Click Run → Set Duration: 70 seconds → Start simulation.
+
+Step 6: Modify Data Rate and Compare Results
+Scenario 1: Inter-arrival time = 1 second → Run simulation → Note throughput.
+
+Scenario 2: Inter-arrival time = 0.1 seconds → Run again → Note throughput.
+
+Result and Observation:
+Lower inter-arrival time = Higher data rate and throughput, up to the point where collisions or network congestion occur.
+
+Higher inter-arrival time = Lower data rate, hence lower throughput.
+
