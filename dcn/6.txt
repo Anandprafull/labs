@@ -1,0 +1,66 @@
+Steps:
+Step 1: Create New Project
+Open the simulation tool → Select New Project.
+
+Name the project and choose a save location.
+
+Step 2: Build Network Topology
+From the Object Palette, add:
+
+Application Config
+
+4 × Ethernet Workstations (ethernet_wkstn)
+
+1 × Ethernet Server
+
+1 × Ethernet16 Hub
+
+Connect all devices using 10Base_T bidirectional links.
+
+Step 3: Configure Applications
+Right-click Application Config → Edit Attributes.
+
+Define traffic types (e.g., FTP, voice), packet sizes, data rates, etc.
+
+Step 4: Set Application Profiles
+Right-click Profile Config → Edit Attributes.
+
+Create profiles:
+
+Assign FTP profile to workstations and server.
+
+Assign Voice profile to Node 2.
+
+Step 5: Configure Network Nodes
+Right-click each Ethernet Workstation → Edit Attributes.
+
+Assign appropriate application profiles.
+
+For Node 2: enable voice settings.
+
+For Server: enable FTP service.
+
+Step 6: Select Collision Statistics
+Right-click on empty workspace → Choose Individual Statistics.
+
+Go to: Node Statistics → Ethernet → Select "Collision Count".
+
+Click OK to confirm.
+
+Step 7: Run Simulation
+Click Run Simulation (play button).
+
+Set duration to 20 seconds → Start the run.
+
+Step 8: View Results
+Right-click empty space → View Results.
+
+Choose Overlaid Statistics to compare collision counts per node on a single graph.
+
+Result Interpretation:
+Collision Count indicates congestion or contention at nodes.
+
+Higher traffic nodes (e.g., Node 2 with voice and FTP) are expected to show more collisions.
+
+Use this data to assess traffic management and efficiency in shared Ethernet environments.
+
