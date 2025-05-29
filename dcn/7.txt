@@ -1,0 +1,69 @@
+1. Create New Project
+Open simulator (e.g., OPNET/NS2/NS3).
+
+Create a new project (e.g., Ethernet_LAN_Congestion).
+
+2. Build Network Topology
+Add devices:
+
+3 × ethernet_wkstn
+
+1 × ethernet_server
+
+1 × ethernet16_hub
+
+Application Config
+
+Profile Config
+
+Connect all nodes to the hub using 10Base_T links.
+
+3. Define Applications
+Edit Application Config:
+
+Row 0: ftp, description: High Load
+
+Row 1: voice, description: GSM Quality Speech
+
+4. Create Traffic Profiles
+Edit Profile Config:
+
+Row 0 (ftp profile):
+
+Application: ftp
+
+Start: constant(1), Repetition: exponential(0.1), Pattern: concurrent
+
+Row 1 (voiceprofile):
+
+Application: voice
+
+Start: constant(1), Repetition: exponential(0.1), Pattern: concurrent
+
+5. Assign Profiles to Workstations
+Select all 3 workstations > Edit Attributes:
+
+Supported Profiles:
+
+Row 0: ftp profile
+
+Row 1: voiceprofile
+
+6. Enable Statistics
+Enable in simulation:
+
+TCP Congestion Window
+
+(Optional: Throughput, Delay, Packet Loss)
+
+7. Run Simulation
+Set duration (e.g., 20s) and start the simulation.
+
+8. Plot Results
+View congestion window graph.
+
+Compare FTP vs. Voice flows across nodes.
+
+📌 Tip:
+Use NS3 if detailed TCP congestion analysis is required.
+
