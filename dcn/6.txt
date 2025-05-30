@@ -1,66 +1,84 @@
-Steps:
-Step 1: Create New Project
-Open the simulation tool → Select New Project.
+AIM: Simulate an ethernet LAN using N nodes and set multiple traffic nodes and determine the collisions across different nodes.
 
-Name the project and choose a save location.
+Step 1: Create New Project
+        Open the simulation tool → Select New Project.
+        Name the project and choose a save location.
 
 Step 2: Build Network Topology
-From the Object Palette, add:
+        From the Object Palette, add:
+        
+        Application Config
+        3 × Ethernet Workstations (ethernet_wkstn)
+        1 × Ethernet Server
+        1 × Ethernet16 Hub
 
-Application Config
-
-4 × Ethernet Workstations (ethernet_wkstn)
-
-1 × Ethernet Server
-
-1 × Ethernet16 Hub
-
-Connect all devices using 10Base_T bidirectional links.
+        Connect all devices using 10Base_T bidirectional links.
 
 Step 3: Configure Applications
-Right-click Application Config → Edit Attributes.
-
-Define traffic types (e.g., FTP, voice), packet sizes, data rates, etc.
+        Right-click Application Config → Edit Attributes.
+        Set rows=2
+            row0-> name:ftp, high load
+            row1-> name:voice, GSM Quality Speech
 
 Step 4: Set Application Profiles
-Right-click Profile Config → Edit Attributes.
+        Right-click Profile Config → Edit Attributes.
+        Set rows=2
+            row0: name= ftpp
+                  Applications: rows=1
+                                row0: name=ftp
+                                      Start Time Offset = const(1)
+                                      Repeatability : Inter repetition Time = exponential(1)
+                                                      No of Repetitions = Unlimited
+                                                      Repetition Pattern = Concurrent
+                  Start Time : constant(1)
+                  Repeatability : Inter repetition Time = constant(1)
+                                  No of Repetitions = Unlimited
+                                  Repetition Pattern = Concurrent
+        row1: name= voicep
+                  Applications: rows=1
+                                row0: name=voice
+                                      Start Time Offset = uniform(5,10)
+                                      Repeatability : Inter repetition Time = exponential(1)
+                                                      No of Repetitions = Unlimited
+                                                      Repetition Pattern = Concurrent
+                  Start Time : constant(1)
+                  Repeatability : Inter repetition Time = constant(1)
+                                  No of Repetitions = Unlimited
+                                  Repetition Pattern = Concurrent
 
-Create profiles:
-
-Assign FTP profile to workstations and server.
-
-Assign Voice profile to Node 2.
 
 Step 5: Configure Network Nodes
-Right-click each Ethernet Workstation → Edit Attributes.
+        Right-click any Ethernet Workstation → Select Similar nodes -> Right Click -> Edit Attributes.
 
-Assign appropriate application profiles.
+        Application Supported Profiles : rows=2
+                                         row0 : name = ftpp
+                                         row1 : name = voicep
 
-For Node 2: enable voice settings.
+        Application Supported Services : rows = 1
+                                         row0 : name = voice
 
-For Server: enable FTP service.
+        For ethernet_Server: enable FTP service.
+                             Application Supported Services : rows = 1
+                                         row0 : name = ftp
 
 Step 6: Select Collision Statistics
-Right-click on empty workspace → Choose Individual Statistics.
+        Right-click on empty workspace → Choose Individual Statistics.
 
-Go to: Node Statistics → Ethernet → Select "Collision Count".
+        Go to: Node Statistics → Ethernet → Select "Collision Count".
 
-Click OK to confirm.
+        Click OK to confirm.
 
 Step 7: Run Simulation
-Click Run Simulation (play button).
+        Click Run Simulation (play button).
 
-Set duration to 20 seconds → Start the run.
+        Set duration to 20 seconds → Start the run.
 
 Step 8: View Results
-Right-click empty space → View Results.
+        Right-click empty space → View Results.
 
-Choose Overlaid Statistics to compare collision counts per node on a single graph.
+        Choose Overlaid Statistics to compare collision counts per node on a single graph.
 
-Result Interpretation:
-Collision Count indicates congestion or contention at nodes.
+Result : Collision Count indicates congestion or contention at nodes.
+         This shows that for all other nodes the collision count is less compared to the server. This is because the FTP application uses TCP and demands retransmission whereas the voice             application uses UDP and retransmission is not required.
 
-Higher traffic nodes (e.g., Node 2 with voice and FTP) are expected to show more collisions.
-
-Use this data to assess traffic management and efficiency in shared Ethernet environments.
-
+        TCP traffic faces high collision per packet in a network compared to UDP per packet
