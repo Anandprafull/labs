@@ -1,49 +1,46 @@
+AIM: Simulate an ethernet LAN using N nodes(6-10). Change the data rate and compare throughput and bit error rate.
+
 Step 1: Create a New Project
-Start a new project in the network simulation software.
+        Start a new project in the network simulation software.
 
 Step 2: Create Network Topology
-Use Rapid Configuration → Choose Star topology.
-
-Set:
-
-Central node: ethernet16_hub
-
-Peripheral nodes: Ethernet station
-
-Links: 10baset
-
-A visual star topology will be created.
+        Use Rapid Configuration → Choose Star topology.
+        Set:        star box-> 6 nodes
+                    central node model= ethernet16_hub
+                    peripheral node model= ethernet_station
+                    link model = 10baseT
 
 Step 3: Configure Ethernet Stations
-Select All Ethernet Stations → Right-click → Edit Attributes.
+        Select All Ethernet Stations → Right-click → Edit Attributes.
+              Traffic generation parameters: start time=constant(1)
+                                             ON State time=constant(100)
+                                             OFF State time=constant(0)
 
-Set Traffic Parameters:
-
-Packet size, generation rate (inter-arrival time), destination, etc.
-
-Apply changes → Click OK.
+              Packet Generation Arguments: Interarrival Time: constant(1)
+                                           Packet Size= uniform(46,1500)
+                                           Segmentation size= no segmentation
+    
+          Apply changes → Click OK.
 
 Step 4: Choose Statistics for Analysis
-Right-click in workspace → Choose Individual Statistics.
+        Right-click in workspace → Choose Individual Statistics -> Link Statistics -> Low level Point to Point -> bit error per packet
+                                                                                   -> Point to Point -> Throughput in and out (packets/sec)
 
-Select:
-
-Bit Error Rate: bit error per packet
-
-Throughput: throughput [packets/sec]
-
-Confirm selection.
+        Confirm selection.
 
 Step 5: Run the Simulation
-Click Run → Set Duration: 70 seconds → Start simulation.
+        Click Run → Set Duration: 70 seconds → Start simulation.
 
 Step 6: Modify Data Rate and Compare Results
-Scenario 1: Inter-arrival time = 1 second → Run simulation → Note throughput.
+        Change the data rate by changing the inter arrival time
 
-Scenario 2: Inter-arrival time = 0.1 seconds → Run again → Note throughput.
+        Scenario 1: Inter-arrival time = ( 1 second ) → Run simulation → Note throughput.
 
-Result and Observation:
-Lower inter-arrival time = Higher data rate and throughput, up to the point where collisions or network congestion occur.
+        Scenario 2: Inter-arrival time = ( 0.1 seconds ) → Run again → Note throughput.
 
-Higher inter-arrival time = Lower data rate, hence lower throughput.
+Result: The data rate is changed by changing the inter arrival rate
+    
+Lower inter-arrival time = Higher data rate and throughput, up to the point where collisions or network congestion occur, no of bit errors are increased.
+
+Higher inter-arrival time = Lower data rate, hence lower throughput, less congestion and less no of errors.
 
