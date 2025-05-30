@@ -1,69 +1,64 @@
-1. Create New Project
-Open simulator (e.g., OPNET/NS2/NS3).
+AIM : Simulate an ethernet LAN using n-nodes and set multiple traffic nodes and plot the congestion window for different source/destination.
 
-Create a new project (e.g., Ethernet_LAN_Congestion).
+1. Create New Project
+  Create a new project .
 
 2. Build Network Topology
-Add devices:
+    Add devices:
 
-3 × ethernet_wkstn
+    3 × ethernet_wkstn
+    1 × ethernet_server
+    1 × ethernet16_hub
+    Application Config
+    Profile Config
 
-1 × ethernet_server
-
-1 × ethernet16_hub
-
-Application Config
-
-Profile Config
-
-Connect all nodes to the hub using 10Base_T links.
+    Connect all nodes to the hub using 10Base_T links.
 
 3. Define Applications
-Edit Application Config:
+   Edit Application Config:
 
-Row 0: ftp, description: High Load
+    Row 0: ftp, description: High Load
 
-Row 1: voice, description: GSM Quality Speech
+    Row 1: voice, description: GSM Quality Speech
 
 4. Create Traffic Profiles
-Edit Profile Config:
+    Edit Profile Config:
 
-Row 0 (ftp profile):
+    Row 0 (ftp profile):
+                      Application: rows = 1
+                                  row0: name=ftp
+                                        Start: constant(1), 
+                                        Repetition: exponential(0.1)
 
-Application: ftp
+    Row 1 (voiceprofile):
 
-Start: constant(1), Repetition: exponential(0.1), Pattern: concurrent
-
-Row 1 (voiceprofile):
-
-Application: voice
-
-Start: constant(1), Repetition: exponential(0.1), Pattern: concurrent
+                      Application: rows = 1
+                                  row0: name=voice                              
+                                        Start: constant(1), 
+                                        Repetition: exponential(0.1)
 
 5. Assign Profiles to Workstations
-Select all 3 workstations > Edit Attributes:
+    Select all 3 workstations > Edit Attributes:
 
-Supported Profiles:
+    Application Supported Profiles: rows=2
+                                    Row 0: ftp profile
+                                    Row 1: voiceprofile
 
-Row 0: ftp profile
+    Application Supported Services: rows=1
+                                    Row 0: voice
 
-Row 1: voiceprofile
+  Select ethernet_server: 
+                          Application Supported Services: rows=1
+                                                          Row 0: ftp
 
-6. Enable Statistics
-Enable in simulation:
+6. Node Statistics : TCP Congestion Window Size (bytes)
 
-TCP Congestion Window
 
-(Optional: Throughput, Delay, Packet Loss)
+7. Run Simulation for 20s
 
-7. Run Simulation
-Set duration (e.g., 20s) and start the simulation.
+8. Result: The TCP Congestion Window (cwnd) controls how much data the sender can send before waiting for an acknowledgment. 
+           It reflects the sender’s perception of the network capacity and congestion. 
+           A larger window means more packets in flight; a smaller window suggests congestion or network limitations.
 
-8. Plot Results
-View congestion window graph.
-
-Compare FTP vs. Voice flows across nodes.
-
-📌 Tip:
-Use NS3 if detailed TCP congestion analysis is required.
-
+          The congestion window increases at the start and then fluctuates as congestion occurs due to multiple TCP streams sharing a limited-bandwidth hub.
+          The presence of voice traffic might reduce the available bandwidth for FTP, causing more frequent congestion signals and smaller average cwnd sizes.
