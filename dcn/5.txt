@@ -2,6 +2,7 @@ AIM: Simulate an ethernet LAN using N nodes(6-10). Change the data rate and comp
 
 Step 1: Create a New Project
         Start a new project in the network simulation software.
+        Set Ethernet On 
 
 Step 2: Create Network Topology
         Use Rapid Configuration → Choose Star topology.
