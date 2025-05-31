@@ -28,24 +28,18 @@ Step 4: Set Application Profiles
                                 row0: name=ftp
                                       Start Time Offset = const(1)
                                       Repeatability : Inter repetition Time = exponential(1)
-                                                      No of Repetitions = Unlimited
-                                                      Repetition Pattern = Concurrent
                   Start Time : constant(1)
                   Repeatability : Inter repetition Time = constant(1)
-                                  No of Repetitions = Unlimited
-                                  Repetition Pattern = Concurrent
-        row1: name= voicep
+
+           row1: name= voicep
                   Applications: rows=1
                                 row0: name=voice
                                       Start Time Offset = uniform(5,10)
                                       Repeatability : Inter repetition Time = exponential(1)
-                                                      No of Repetitions = Unlimited
-                                                      Repetition Pattern = Concurrent
+                                                     
                   Start Time : constant(1)
                   Repeatability : Inter repetition Time = constant(1)
-                                  No of Repetitions = Unlimited
-                                  Repetition Pattern = Concurrent
-
+                                 
 
 Step 5: Configure Network Nodes
         Right-click any Ethernet Workstation → Select Similar nodes -> Right Click -> Edit Attributes.
