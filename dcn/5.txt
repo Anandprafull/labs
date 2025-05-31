@@ -12,7 +12,7 @@ Step 2: Create Network Topology
 
 Step 3: Configure Ethernet Stations
         Select All Ethernet Stations → Right-click → Edit Attributes.
-              Traffic generation parameters: start time=constant(1)
+              Traffic generation parameters: start time=constant(0)
                                              ON State time=constant(100)
                                              OFF State time=constant(0)
 
@@ -23,8 +23,9 @@ Step 3: Configure Ethernet Stations
           Apply changes → Click OK.
 
 Step 4: Choose Statistics for Analysis
-        Right-click in workspace → Choose Individual Statistics -> Link Statistics -> Low level Point to Point -> bit error per packet
-                                                                                   -> Point to Point -> Throughput in and out (packets/sec)
+        Right-click in workspace → Choose Individual Statistics 
+        -> Link Statistics -> Low level Point to Point -> bit error per packet
+                           -> Point to Point -> Throughput in and out (packets/sec)
 
         Confirm selection.
 
@@ -40,7 +41,7 @@ Step 6: Modify Data Rate and Compare Results
 
 Result: The data rate is changed by changing the inter arrival rate
     
-Lower inter-arrival time = Higher data rate and throughput, up to the point where collisions or network congestion occur, no of bit errors are increased.
+        Lower inter-arrival time = Higher data rate and throughput, up to the point where collisions or network congestion occur, no of bit errors are increased.
 
-Higher inter-arrival time = Lower data rate, hence lower throughput, less congestion and less no of errors.
+        Higher inter-arrival time = Lower data rate, hence lower throughput, less congestion and less no of errors.
 
