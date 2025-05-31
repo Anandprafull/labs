@@ -53,8 +53,7 @@ AIM : Simulate an ethernet LAN using n-nodes and set multiple traffic nodes and 
                           Application Supported Services: rows=1
                                                           Row 0: ftp
 
-6. Node Statistics : TCP Congestion Window Size (bytes)
-
+6. Node Statistics : TCP Connection -> Congestion Window Size (bytes)
 
 7. Run Simulation for 20s
 
