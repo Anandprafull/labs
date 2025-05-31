@@ -1,60 +1,52 @@
+AIM: Simulate Simple BSS with trnsmitting nodes in wireless LAn by simulation and determine the performance with respect to transmission of packets
+
 1. Create Project
 Start a new project in the simulator (e.g., OPNET/NS2/NS3).
 
 Set unit to meters for correct wireless range.
 
 2. Add Wireless Nodes
-Open Object Palette → Select wireless_lan_adv.
+    Open Object Palette → Select wireless_lan_adv.
 
-Add 4 × wlan_station_adv (fix) nodes to the workspace.
+    Add 4 × wlan_station_adv (fix) nodes to the workspace.
 
 3. Configure Application Traffic
-Draw a circle annotation around all 4 nodes to mark the network region.
+    Draw a Topology -> Annotation Palatte -> circle annotation around all 4 nodes to mark the network region.
 
-Select one node → Right-click → Select Similar Nodes → Edit Attributes:
+    Select one node → Right-click → Select Similar Nodes → Edit Attributes:
 
-Start Time: constant(0)
+    Traffic Generation Parameters :
+                                    Start Time: constant(1)
+                                    ON State: constant(100)
+                                    OFF State: constant(0)
 
-ON State: constant(100)
+    Packet Generation Arguments:
+                                   Interarrival Time: exponential(1)
 
-OFF State: constant(0)
-
-Under Packet Generation Arguments:
-
-Interarrival Time: exponential(1)
-
-Click Apply Changes → OK.
+    Click Apply Changes → OK.
 
 4. Enable Statistics
-Right-click on workspace → Choose Individual Statistics:
+   Right-click on workspace → Choose Individual Statistics -> Node Statistics
 
-Under Wireless LAN → Node Statistics:
-
-✅ Data Traffic Sent (packets/sec)
-
-✅ Data Traffic Received (packets/sec)
+  Under Wireless LAN :
+                      Data Traffic Sent (packets/sec)
+                      Data Traffic Received (packets/sec)
 
 5. Run Simulation
-Click Run Simulation icon.
-
-Set Simulation Duration: 100 seconds
-
-Click Run
+            Click Run Simulation icon.
+            Set Simulation Duration: 100 seconds
+            Click Run
 
 6. View Results
-Right-click → View Results
+    Right-click → View Results
 
-Change view to:
+Change view to: Sample_Sum or Average
 
-From: As Is
+7. Result Interpretation:
+  Each node sends ~1 packet/sec
 
-To: Sample_Sum or Average
+  Each node receives ~2.5 packets/sec
 
-📊 Result Interpretation:
-Each node sends ~1 packet/sec
+  Because it gets packets from 3 other nodes.
 
-Each node receives ~2.5 packets/sec
-
-Because it gets packets from 3 other nodes.
-
-Some packet loss may be seen (can be analyzed further using bit/sec stats
+  Some packet loss may be seen (can be analyzed further using bit/sec stats
