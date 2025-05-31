@@ -29,6 +29,7 @@ AIM : Simulate an ethernet LAN using n-nodes and set multiple traffic nodes and 
                                   row0: name=ftp
                                         Start: constant(1), 
                                         Repetition: exponential(0.1)
+                                  Start: constant(1), 
 
     Row 1 (voiceprofile):
 
@@ -36,6 +37,7 @@ AIM : Simulate an ethernet LAN using n-nodes and set multiple traffic nodes and 
                                   row0: name=voice                              
                                         Start: constant(1), 
                                         Repetition: exponential(0.1)
+                                  Start: uniform(100,110), 
 
 5. Assign Profiles to Workstations
     Select all 3 workstations > Edit Attributes:
