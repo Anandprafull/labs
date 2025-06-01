@@ -1,0 +1,76 @@
+#include <iostream>
+#include <climits>
+
+using namespace std;
+
+#define V 6
+
+int minKey(int key[], bool mstSet[]) {
+    int min = INT_MAX, min_index = -1;
+    for (int v = 0; v < V; v++) {
+        if (!mstSet[v] && key[v] < min) {
+            min = key[v];
+            min_index = v;
+        }
+    }
+    return min_index;
+}
+
+void printMST(int parent[], int graph[V][V]) {
+    int totalWeight = 0;
+    cout << "Edges in MST:\n";
+    for (int i = 0; i < V; i++) {
+        if (parent[i] != -1) {
+            char from = 'A' + parent[i];
+            char to = 'A' + i;
+            int weight = graph[i][parent[i]];
+            cout << from << " - " << to << "  Weight: " << weight << "\n";
+            totalWeight += weight;
+        }
+    }
+    cout << "Total Pipe Length: " << totalWeight << " meters\n";
+}
+
+void primMST(int graph[V][V], int start) {
+    int parent[V];
+    int key[V];
+    bool mstSet[V];
+
+    for (int i = 0; i < V; i++) {
+        key[i] = INT_MAX;
+        mstSet[i] = false;
+        parent[i] = -1;
+    }
+
+    key[start] = 0;
+
+    for (int count = 0; count < V - 1; count++) {
+        int u = minKey(key, mstSet);
+        mstSet[u] = true;
+
+        for (int v = 0; v < V; v++) {
+            if (graph[u][v] && !mstSet[v] && graph[u][v] < key[v]) {
+                parent[v] = u;
+                key[v] = graph[u][v];
+            }
+        }
+    }
+
+    printMST(parent, graph);
+}
+
+int main() {
+    int graph[V][V] = {
+        {  0,  5,  2,  6,  0,  0},
+        {  5,  0,  2,  0,  0,  0},
+        {  2,  2,  0,  0,  3,  0},
+        {  6,  0,  0,  0,  3,  7},
+        {  0,  0,  3,  3,  0,  8},
+        {  0,  0,  0,  7,  8,  0}
+    };
+
+    int startVertex = 5;
+    primMST(graph, startVertex);
+
+    return 0;
+}
