@@ -1,19 +1,14 @@
-pin1 of lm35 to 5v of uno
-pin2 of lm35 to analog pin a0 of uno
-pin3 of lm35 to gnd of  uno
+Single Led with nodemcu
 
-#define lm35 A0
+#define led D0
 
-void setup() {
-  Serial.begin(9600);
+void setup(){
+  pinMode(led,OUTPUT);
 }
 
-void loop() {
-  int value = analogRead(lm35);
-  float voltage = value * 5.0 / 1024;
-  float temperature = voltage * 100;
-  Serial.print("Temperature: ");
-  Serial.println(temperature);
-  Serial.println((temperature*9.0/5.0)+32.0);
+void loop(){
+  digitalWrite(led1,HIGH);
   delay(1000);
+  digitalWrite(led2,LOW);
+delay(1000);
 }

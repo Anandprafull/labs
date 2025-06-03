@@ -1,12 +1,12 @@
 
-int led = 9;
-int pot = A0;
+#define LED_PIN 13
+#define POT_PIN A0
 
 void setup() {
-  pinMode(led, OUTPUT);
+  pinMode(LED_PIN, OUTPUT);
 }
 
 void loop() {
-  int val = analogRead(pot);
-  analogWrite(led, val / 4);
+  int val = analogRead(POT_PIN);
+  analogWrite(LED_PIN, val / 4);
 }

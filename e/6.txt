@@ -1,3 +1,8 @@
+Arduino DHT
+
+pin1 of dht11 with 5v of uno
+pin2 of uno with pin 2 of dht11
+pin3 of dht11 to gnd
 
 #include <DHT.h>
 #define DHTPIN 2
@@ -11,12 +16,16 @@ void setup() {
 }
 
 void loop() {
-  float temp = dht.readTemperature();
-  float hum = dht.readHumidity();
+  float t = dht.readTemperature();
+  float h = dht.readHumidity();
+  if(isnan(t) || isnan(h)){
+    Serial.printlm("Failed to read sensor!");
+    return;
+  }
   Serial.print("Temp: ");
-  Serial.print(temp);
+  Serial.print(t);
   Serial.print(" C, Humidity: ");
-  Serial.print(hum);
+  Serial.print(h);
   Serial.println(" %");
   delay(2000);
 }

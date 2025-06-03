@@ -1,13 +1,16 @@
+buzzer with arduino
++ with pin8 of uno
+- with gnd 
 
-int buzzer = 8;
+#define BUZZER 8
 
 void setup() {
-  pinMode(buzzer, OUTPUT);
+  pinMode(BUZZER, OUTPUT);
 }
 
 void loop() {
-  tone(buzzer, 1000);
+  tone(BUZZER, 1000);
   delay(1000);
-  noTone(buzzer);
+  noTone(BUZZER);
   delay(1000);
 }

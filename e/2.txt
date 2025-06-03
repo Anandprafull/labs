@@ -1,15 +1,27 @@
+//pin1 of BTN - pin 7 of Arduino
+// pin2 of BTN - GND
+//pin3 of BTN - 5V
 
-int led = 13;
-int button = 2;
+// pin1 of LED - pin 8 of Arduino
+//-ve pin2 of LED - GND
+//+ve of led is connected to pin 8 of Arduino via resistor
 
-void setup() {
-  pinMode(led, OUTPUT);
-  pinMode(button, INPUT);
+#define LED 8
+#define BTN 7
+
+int state=0;
+void setup()
+{
+  pinMode(LED, OUTPUT);
+  pinMode(BTN, INPUT);
+
 }
 
-void loop() {
-  if (digitalRead(button) == HIGH)
-    digitalWrite(led, HIGH);
-  else
-    digitalWrite(led, LOW);
+void loop()
+{ state=digitalRead(BTN);
+ if(state==HIGH){
+   digitalWrite(LED,HIGH);
+ }else{
+   digitalWrite(LED,LOW);
+ }
 }

@@ -1,20 +1,21 @@
+lm35 Arduino
 
-int pir = 2;
-int led = 13;
+pin1 of lm35 to 5v of uno
+pin2 of lm35 to analog pin a0 of uno
+pin3 of lm35 to gnd of  uno
+
+#define lm35 A0
 
 void setup() {
-  pinMode(pir, INPUT);
-  pinMode(led, OUTPUT);
   Serial.begin(9600);
 }
 
 void loop() {
-  int motion = digitalRead(pir);
-  if (motion == HIGH) {
-    digitalWrite(led, HIGH);
-    Serial.println("Motion Detected");
-  } else {
-    digitalWrite(led, LOW);
-  }
-  delay(500);
+  int value = analogRead(lm35);
+  float voltage = value * 5.0 / 1024;
+  float temperature = voltage * 100;
+  Serial.print("Temperature: ");
+  Serial.println(temperature);
+  Serial.println((temperature*9.0/5.0)+32.0);
+  delay(1000);
 }

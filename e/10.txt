@@ -1,16 +1,30 @@
-#define led D0
-#define led2 D1
+Dht11 with nodemcu
 
-void setup(){
-  pinMode(led,OUTPUT);
-  pinMode(led2,OUTPUT);
+Vcc pin of DHT11 -> 3.3v pin of nodemcu
+data pin of dht11 -> digital ip/op pin of nodemcu
+Gnd pin of dht11 to gdn of nodemcu
+
+#include <DHT.h>
+#define DHTPIN 2
+#define DHTTYPE DHT11
+
+DHT dht(DHTPIN, DHTTYPE);
+
+void setup() {
+  Serial.begin(115200);//9600
+  Serial.println(F("DHTxx Test"));
+  dht.begin();
 }
 
-void loop(){
-  digitalWrite(led,LOW);
-  digitalWrite(led2,HIGH);
-  delay(1000);
-  digitalWrite(led,HIGH);
-  digitalWrite(led2,LOW);
-delay(1000);
+void loop() {
+  float t = dht.readTemperature();
+  float h = dht.readHumidity();
+  Serial.print("Temp: ");
+  Serial.print(t);
+  Serial.print(" C, Humidity: ");
+  Serial.println(h);
+  delay(2000);
 }
+
+
+The DHT11 sensor provide accurate temp and humidity reading when interfaced with nodemcu.
