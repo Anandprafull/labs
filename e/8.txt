@@ -1,5 +1,8 @@
+pin1 of lm35 to 5v of uno
+pin2 of lm35 to analog pin a0 of uno
+pin3 of lm35 to gnd of  uno
 
-int lm35 = A0;
+#define lm35 A0
 
 void setup() {
   Serial.begin(9600);
@@ -11,5 +14,6 @@ void loop() {
   float temperature = voltage * 100;
   Serial.print("Temperature: ");
   Serial.println(temperature);
+  Serial.println((temperature*9.0/5.0)+32.0);
   delay(1000);
 }
