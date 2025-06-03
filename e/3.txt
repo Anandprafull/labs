@@ -1,4 +1,4 @@
-
+Potentiometer Uno
 #define LED_PIN 13
 #define POT_PIN A0
 

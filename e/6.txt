@@ -16,15 +16,18 @@ void setup() {
 }
 
 void loop() {
-  float t = dht.readTemperature();
+  float tC = dht.readTemperature();
   float h = dht.readHumidity();
-  if(isnan(t) || isnan(h)){
-    Serial.printlm("Failed to read sensor!");
+  if (isnan(tC) || isnan(h)) {
+    Serial.println("Failed to read sensor!");
     return;
   }
+  float tF = tC * 1.8 + 32;
   Serial.print("Temp: ");
-  Serial.print(t);
-  Serial.print(" C, Humidity: ");
+  Serial.print(tC);
+  Serial.print(" C / ");
+  Serial.print(tF);
+  Serial.print(" F, Humidity: ");
   Serial.print(h);
   Serial.println(" %");
   delay(2000);
