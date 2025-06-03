@@ -5,7 +5,7 @@ data pin of dht11 -> digital ip/op pin of nodemcu
 Gnd pin of dht11 to gdn of nodemcu
 
 #include <DHT.h>
-#define DHTPIN 2
+#define DHTPIN D2
 #define DHTTYPE DHT11
 
 DHT dht(DHTPIN, DHTTYPE);
