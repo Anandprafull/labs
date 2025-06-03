@@ -1,15 +1,16 @@
+#define led D0
+#define led2 D!
 
-int leds[] = {5, 4, 0, 2}; // GPIO pins
-int n = 4;
-
-void setup() {
-  for (int i = 0; i < n; i++) pinMode(leds[i], OUTPUT);
+void setup(){
+  pinMode(led,OUTPUT);
+  pinMode(led2,OUTPUT);
 }
 
-void loop() {
-  for (int i = 0; i < n; i++) {
-    digitalWrite(leds[i], LOW);
-    delay(300);
-    digitalWrite(leds[i], HIGH);
-  }
+void loop(){
+  digitalWrite(led,LOW);
+  digitalWrite(led2,HIGH);
+  delay(1000);
+  digitalWrite(led,HIGH);
+  digitalWrite(led2,LOW);
+delay(1000);
 }
