@@ -1,3 +1,9 @@
+Vcc pin of DHT11 -> 3.3v pin of nodemcu
+data pin of dht11 -> digital ip/op pin of nodemcu
+Gnd pin of dht11 to gdn of nodemcu
+
+
+
 
 #include <DHT.h>
 #define DHTPIN 2
@@ -6,7 +12,8 @@
 DHT dht(DHTPIN, DHTTYPE);
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(115200);//9600
+  Serial.println(F("DHTxx Test"));
   dht.begin();
 }
 
@@ -19,3 +26,6 @@ void loop() {
   Serial.println(h);
   delay(2000);
 }
+
+
+The DHT11 sensor provide accurate temp and humidity reading when interfaced with nodemcu.
