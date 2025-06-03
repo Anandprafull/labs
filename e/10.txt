@@ -1,5 +1,5 @@
 #define led D0
-#define led2 D!
+#define led2 D1
 
 void setup(){
   pinMode(led,OUTPUT);
