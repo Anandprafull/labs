@@ -1,0 +1,166 @@
+ #include #define INF 99999 #define V 6 using namespace std; 
+
+const char* home[V] = {"a","b","c","d","e","f"}; int graph[V][V] = { {0,5,2,6,0,0}, {5,0,2,0,0,0}, {2,2,0,0,3,0}, {6,0,0,0,3,7}, {0,0,3,3,0,8}, {0,0,0,7,8,0} }; void primMST() { int parent[V], key[V]; bool inMST[V]; for (int i = 0; i < V; i++) key[i] = INF, inMST[i] = false, parent[i] = -1; key[0] = 0; parent[0] = -1; 
+
+for (int count = 0; count < V - 1; count++) { 
+    int minKey = INF, u = -1; 
+    for (int v = 0; v < V; v++)  
+        if (!inMST[v] && key[v] < minKey)  
+            minKey = key[v], u = v; 
+    inMST[u] = true; 
+    for (int v = 0; v < V; v++)  
+        if (graph[u][v] && !inMST[v] && graph[u][v] < key… 
+  
+
+ 
+
+Adj list: vector<pair<int,int>> adj[V]={{nbr,wt},{}} 
+
+For(auto &edge:adj[u]){ 
+
+Int v=edge.first; int w=edge.decong; 
+
+If(!inmst[v] && w<key[v])key[v]=w,parent[v]=u;}} 
+
+ 
+
+#include <bits/stdc++.h> using namespace std; 
+
+int knapsack(int W, int wt[], int val[], int n) { int dp[n + 1][W + 1]; for (int i = 0; i <= n; i++) { dp[i][0] = 0; } for (int j = 0; j <= W; j++) { dp[0][j] = 0; } 
+
+for (int i = 1; i <= n; i++) 
+{ 
+    for (int j = 1; j <= W; j++) 
+    { 
+        if (wt[i - 1] > j) 
+        { 
+            dp[i][j] = dp[i - 1][j]; 
+        } 
+        else 
+        { 
+            dp[i][j] = max(val[i - 1] + dp[i - 1][j - wt[i - 1]], dp[i - 1][j]); 
+        } 
+    } 
+} 
+return dp[n][W]; 
+  
+
+} 
+
+int main() { int val[] = {10, 15, 25, 12}; int wt[] = {1, 2, 3, 2}; int W = 5; int n = 4; clock_t start = clock(); cout << "Maximum value in knapsack:" << knapsack(W, wt, val, n) << endl; clock_t end = clock(); 
+
+double time_taken = ((double)(end - start)) / CLOCKS_PER_SEC * 1000; 
+cout << "Time Taken: " << time_taken << "ms" << endl; 
+return 0; 
+  
+
+} 
+
+ #include #include #define V 7 using namespace std; 
+
+const char* cities[V] = { "SF", "LA", "Denver", "Dallas", "Chicago", "NY", "Boston" }; int graph[V][V] = { {0, 4, 5, 0, 6, 0, 0}, // SF {4, 0, 3, 5, 0, 0, 0}, // LA {5, 3, 0, 4, 5, 0, 0}, // Denver {0, 5, 4, 0, 0, 0, 6}, // Dallas {6, 0, 5, 0, 0, 3, 4}, // Chicago {0, 0, 0, 0, 3, 0, 2}, // Boston {0, 0, 0, 6, 4, 2, 0} // New York 
+
+}; 
+
+void dijkstra(int src) { int dist[V], visited[V] = {0}, parent[V]; for (int i = 0; i < V; i++) dist[i] = INT_MAX, parent[i] = -1; dist[src] = 0; 
+
+for (int i = 0; i < V - 1; i++) 
+{ 
+    int u = -1; 
+    for (int j = 0; j < V; j++) 
+        if (!visited[j] && (u == -1 || dist[j] < dist[u])) 
+            u = j; 
+    visited[u] = 1; 
+    for (int v = 0; v < V; v++) 
+        if (graph[u][v] && !visited[v] && dist[u] + graph[u][v] < dist[v]) 
+            dist[v] = dist[u] + graph[u][v], parent[v] = u; 
+     
+} 
+ 
+cout << "\nShortest response times from SF (0):\n"; 
+for (int i = 0; i < V; i++) 
+{ 
+    cout << "SF -> " << cities[i] << ": "; 
+    if (dist[i] == INT_MAX) cout << "No path\n"; 
+    else { 
+        cout << dist[i] << " sec, Path: "; 
+        // Print path 
+        int path[V], idx = 0, t = i; 
+        while (t != -1) { path[idx++] = t; t = parent[t]; } 
+        for (int j = idx - 1; j >= 0; j--) { 
+            cout << cities[path[j]]; 
+            if (j > 0) cout << " -> "; 
+        } 
+        cout << "\n"; 
+    } 
+} 
+  
+
+} 
+
+int main() { dijkstra(0); return 0; } [12:22 am, 5/6/2025] Prafull Anand: #include <bits/stdc++.h> 
+
+using namespace std; 
+
+struct item { int weight; int profit; }; 
+
+bool cmp(item a, item b) { return (double)a.profit / a.weight > (double)b.profit / b.weight; } 
+
+void fracKnapsack(item items[], int n, int capacity) { double totalProfit = 0.0; sort(items, items + n, cmp); cout << "Selected items(profit,weight):" << endl; for (int i = 0; i < n; i++) { if (capacity >= items[i].weight) { capacity -= items[i].weight; totalProfit += items[i].profit; 
+
+       cout << "(" << items[i].profit << "," << items[i].weight << ")- fully included" << endl; 
+    } 
+    else 
+    { 
+        double fraction = (double)capacity / items[i].weight; 
+        totalProfit += items[i].profit * fraction; 
+        cout << "(" << items[i].profit << ", " << items[i].weight << ") - " << fraction * 100 << "% included" << endl; 
+        break; 
+    } 
+} 
+cout << "Maximum profit: " << totalProfit << endl; 
+  
+
+} 
+
+int main() { item items[] = { {1, 10}, {2, 15}, {3, 25}, {2, 12}}; int n = sizeof(items) / sizeof(items[0]); int capacity = 5; 
+
+clock_t start = clock(); 
+fracKnapsack(items, n, capacity); 
+clock_t end = clock(); 
+ 
+double time_taken = ((double)(end - start)) / CLOCKS_PER_SEC * 1000; 
+cout << "Time taken: " << time_taken << " ms" << endl; 
+ 
+return 0; 
+  
+
+} 
+
+Prim’s Algorithm (Adjacency Matrix) 
+
+Time Complexity: (O(V^2)) due to the nested loops for finding the minimum key. 
+
+Space Complexity: (O(V^2)) for storing the graph. 
+
+Dijkstra’s Algorithm (Adjacency Matrix) 
+
+Time Complexity: (O(V^2)), as it finds the minimum distance in (O(V)) and updates neighbors in (O(V)). 
+
+Space Complexity: (O(V^2)) for storing the adjacency matrix and (O(V)) for distance tracking. 
+
+0/1 Knapsack (Dynamic Programming) 
+
+Time Complexity: (O(nW)), where (n) is the number of items and (W) is the capacity. 
+
+Space Complexity: (O(nW)) for the DP table. 
+
+Fractional Knapsack (Greedy) 
+
+Time Complexity: (O(n \log n)) due to sorting. 
+
+Space Complexity: (O(n)) for storing item weights and profits. 
+
+Would you like optimizations for Prim’s or Dijkstra’s using a priority queue to reduce complexity? I can suggest an adjacency list approach with a min-heap! 
+
+ 
