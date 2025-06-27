@@ -1,144 +1,121 @@
-#include <bits/stdc++.h>
-using namespace chrono;
+#include<bits/stdc++.h>
 using namespace std;
 
-// Bubble Sort function
-void bubbleSort(vector<int> &arr)
-{
-    int n = arr.size();
-    for (int i = 0; i < n - 1; ++i)
-    {
-        for (int j = 0; j < n - i - 1; ++j)
-        {
-            if (arr[j] > arr[j + 1])
-            {
-                swap(arr[j], arr[j + 1]);
-            }
-        }
-    }
-}
-
-// Iterative Linear Search
-int iterativeSearch(const vector<int> &arr, int target)
-{
-    for (int i = 0; i < arr.size(); ++i)
-    {
-        if (arr[i] == target)
-        {
+//linearSearchI o(n)
+int linSearchI(int arr[],int n,int key){
+    for(int i=0;i<n;i++){
+        if(arr[i]==key){
             return i;
         }
     }
     return -1;
 }
-// Recursive Linear Search
-int recursiveSearch(const vector<int> &arr, int target, int index = 0)
-{
-    if (index >= arr.size())
-    {
+
+//linearSearchRec o(n)
+int linSearchR(int arr[],int n,int key,int idx=0){
+    if(idx>=n){
         return -1;
     }
-    if (arr[index] == target)
-    {
-        return index;
+    if(arr[idx]==key){
+        return idx;
     }
-    return recursiveSearch(arr, target, index + 1);
+    return linSearchR(arr,n,key,idx+1);
 }
-// Iterative Binary Search
-int iterativeBinarySearch(const vector<int> &arr, int target)
-{
-    int left = 0;
-    int right = arr.size() - 1;
-    while (left <= right)
-    {
-        int mid = left + (right - left) / 2;
-        if (arr[mid] == target)
-        {
+
+//binarySearchI O(logn)
+int binSearchI(int arr[],int n, int key){
+    int left=0,right=n-1;
+    while(left<=right){
+        int mid=left+(right-left)/2;
+
+        if(arr[mid]==key){
             return mid;
-        }
-        if (arr[mid] < target)
-        {
-            left = mid + 1;
-        }
-        else
-        {
-            right = mid - 1;
+        }else if(arr[mid]>key){
+            right=mid-1;
+        }else{
+            left=mid+1;
         }
     }
     return -1;
 }
 
-// Recursive Binary Search
-int recursiveBinarySearch(const vector<int> &arr, int target, int left, int right)
-{
-    if (left <= right)
-    {
-        int mid = left + (right - left) / 2;
-        if (arr[mid] == target)
-        {
-            return mid;
-        }
-        if (arr[mid] < target)
-        {
-            return recursiveBinarySearch(arr, target, mid + 1, right);
-        }
-        else
-        {
-            return recursiveBinarySearch(arr, target, left, mid - 1);
-        }
+// Binary Search Recursive - O(log n)
+int binSearchR(int arr[], int left,int right, int key){
+    if(left>right){
+        return -1;
     }
-    return -1;
+    int mid=left+(right-left)/2;
+    if(arr[mid]==key){
+        return mid;
+    }else if(arr[mid]>key){
+        return binSearchR(arr,left,mid-1,key);
+    }else{
+        return binSearchR(arr,mid+1,right,key);
+    }
 }
 
-int main()
-{
-    // vector<int> array = {2, 3, 4, 10, 40};
-    // int target = 10;
-
-    int n, target;
-    cout << "Enter the number of elements in the array: ";
-    cin >> n;
-
-    vector<int> array(n);
-    cout << "Enter the elements of the array: ";
-    for (int i = 0; i < n; ++i)
-    {
-        cin >> array[i];
+void bubbleSort(int arr[],int n){
+    for(int i=0;i<n-1;i++){
+        for(int j=0;j<n-i-1;j++){
+            if(arr[j]>arr[j+1]){
+                swap(arr[j],arr[j+1]);
+            }
+        }
     }
+}
 
-    cout << "Enter the target element to search: ";
-    cin >> target;
-
-    // Sorting for binary approach for Modification
-    bubbleSort(array);
+int main(){
+    int arr[]={3,5,6,1,7,9,3,9};
+    int n=sizeof(arr)/sizeof(arr[0]);
+    int key = 6;
     
-    // Linear Search - Iterative
-    auto startIterLin = chrono::high_resolution_clock::now();
-    int iterLinResult = iterativeSearch(array, target);
-    auto endIterLin = chrono::high_resolution_clock::now();
-    auto iterLinTime = chrono::duration_cast<chrono::nanoseconds>(endIterLin - startIterLin);
-    // Linear Search - Recursive
-    auto startRecLin = chrono::high_resolution_clock::now();
-    int recLinResult = recursiveSearch(array, target);
-    auto endRecLin = chrono::high_resolution_clock::now();
-    auto recLinTime = chrono::duration_cast<chrono::nanoseconds>(endRecLin - startRecLin);
-    // Binary Search - Iterative
-    auto startIterBin = chrono::high_resolution_clock::now();
-    int iterBinResult = iterativeBinarySearch(array, target);
-    auto endIterBin = chrono::high_resolution_clock::now();
+    cout << "Original array: ";
+    for(int i=0; i<n; i++) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+    cout << "Searching for: " << key << endl << endl;
 
-    auto iterBinTime = chrono::duration_cast<chrono::nanoseconds>(endIterBin - startIterBin);
-    // Binary Search - Recursive
-    auto startRecBin = chrono::high_resolution_clock::now();
-    int recBinResult = recursiveBinarySearch(array, target, 0, array.size() - 1);
-    auto endRecBin = chrono::high_resolution_clock::now();
-    auto recBinTime = chrono::duration_cast<chrono::nanoseconds>(endRecBin - startRecBin);
-    cout << "Iterative Linear Search: Index " << iterLinResult
-         << ", Time taken: " << iterLinTime.count() << " nanoseconds\n";
-    cout << "Recursive Linear Search: Index " << recLinResult
-         << ", Time taken: " << recLinTime.count() << " nanoseconds\n";
-    cout << "Iterative Binary Search: Index " << iterBinResult
-         << ", Time taken: " << iterBinTime.count() << " nanoseconds\n";
-    cout << "Recursive Binary Search: Index " << recBinResult
-         << ", Time taken: " << recBinTime.count() << " nanoseconds\n";
+    clock_t start1=clock();
+    int r1=linSearchI(arr,n,key);
+    clock_t end1=clock();
+    double t1=double(end1-start1)/CLOCKS_PER_SEC;
+
+    clock_t start2=clock();
+    int r2=linSearchR(arr,n,key);
+    clock_t end2=clock();
+    double t2=double(end2-start2)/CLOCKS_PER_SEC;
+
+    bubbleSort(arr,n);
+    cout << "Sorted array: ";
+    for(int i=0; i<n; i++) {
+        cout << arr[i] << " ";
+    }
+    cout << endl << endl;
+
+    clock_t start3=clock();
+    int r3=binSearchI(arr,n,key);
+    clock_t end3=clock();
+    double t3=double(end3-start3)/CLOCKS_PER_SEC;
+
+    clock_t start4=clock();
+    int r4=binSearchR(arr,0,n-1,key);
+    clock_t end4=clock();
+    double t4=double(end4-start4)/CLOCKS_PER_SEC;
+
+    cout << "Linear Search Iterative : " << r1 << " | Time: " << t1*1e9 << " ns" << endl;
+    cout << "Linear Search Recursive : " << r2 << " | Time: " << t2*1e9 << " ns" << endl;
+    cout << "Binary Search Iterative : " << r3 << " | Time: " << t3*1e9 << " ns" << endl;
+    cout << "Binary Search Recursive : " << r4 << " | Time: " << t4*1e9 << " ns" << endl;
     return 0;
 }
+
+
+/*
+ auto start4 = chrono::high_resolution_clock::now();
+    int r4=binSearchR(arr,0,n-1,key);
+    auto end4 = chrono::high_resolution_clock::now();
+    auto t4 = chrono::duration_cast<chrono::nanoseconds>(end4 - start4).count();
+
+    cout << "Linear Search Iterative : " << r1 << " | Time: " << t1 << " ns" << endl;
+ */

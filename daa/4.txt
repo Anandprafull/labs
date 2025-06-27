@@ -1,60 +1,51 @@
 #include<bits/stdc++.h>
-
+#include<time.h>
 using namespace std;
-using namespace chrono;
 
-int partition(vector<int> &arr, int low, int high) {
-  int pivot = arr[high];
-  int i = low - 1;
+int a[1000],n;
 
-  for (int j = low; j < high; ++j) {
-    if (arr[j] <= pivot) {
-      ++i;
-      swap(arr[i], arr[j]);
+//O(n log n)
+int partition(int l,int h){
+    int p=a[h],i=l-1;
+    for(int j=l;j<h;j++){
+        if(a[j]<=p){
+            swap(a[++i],a[j]);
+        }
     }
-  }
-  swap(arr[i + 1], arr[high]);
-  return i + 1;
+    swap(a[++i],a[h]);
+    return i;
 }
 
-void quicksort(vector<int> &arr, int low, int high) {
-  if (low < high) {
-    int pi = partition(arr, low, high);
-    quicksort(arr, low, pi - 1);
-    quicksort(arr, pi + 1, high);
-  }
+void quicksort(int l,int h){
+    if(l<h){
+        int pi=partition(l,h);
+        quicksort(l,pi-1);
+        quicksort(pi+1,h);
+    }
 }
 
-void printArray(const vector<int>& arr) {
-  for (int num : arr) {
-    cout << num << " ";
-  }
-  cout << endl;
-}
 
-int main() {
-  int n;
-  cout << "Enter the number of elements: ";
+int main()
+{
+  cout << "Enter n: ";
   cin >> n;
+  cout << "Enter elements: ";
+  for (int i = 0; i < n; i++)
+    cin >> a[i];
 
-  vector<int> array(n);
-  cout << "Enter the elements: ";
-  for (int i = 0; i < n; i++) {
-    cin >> array[i];
-  }
+  cout << "Original: ";
+  for (int i = 0; i < n; i++)
+    cout << a[i] << " ";
+  cout << endl;
 
-  cout << "\nInitial array: ";
-  printArray(array);
+  clock_t t = clock();
+  quicksort(0, n - 1);
 
-  auto start = chrono::high_resolution_clock::now();
-  quicksort(array, 0, n - 1);
-  auto end = chrono::high_resolution_clock::now();
-  auto elapsedTime = chrono::duration_cast<chrono::nanoseconds>(end - start);
-
-  cout << "Sorted array Using Quicksort: ";
-  printArray(array);
-
-  cout << "Time taken: " << elapsedTime.count() << " nanoseconds\n";
-
-  return 0;
+  cout << "Sorted: ";
+  for (int i = 0; i < n; i++)
+    cout << a[i] << " ";
+  cout << "\nTime: " << double(clock() - t) / CLOCKS_PER_SEC * 1e9 << " ns\n";
 }
+
+// Enter n: 5
+// Enter elements: 64 34 25 12 22

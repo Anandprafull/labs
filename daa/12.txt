@@ -1,87 +1,56 @@
-/* Fractional Knapsack
-
-Pseudocode
-function fracKnapsack(items, n, capacity):
-    sort items in descending order of profit/weight ratio
-    totalProfit = 0
-    for i = 0 to n-1:
-        if capacity >= items[i].weight:
-            capacity -= items[i].weight
-            totalProfit += items[i].profit
-            print item fully included
-        else:
-            fraction = capacity / items[i].weight
-            totalProfit += items[i].profit * fraction
-            print item fractionally included
-            break
-    print totalProfit
-
-
-    Complexity Analysis
-
-Sorting: O(n log n) (for sorting items by profit/weight ratio)
-Loop: O(n) (each item is considered at most once)
-Total Time Complexity: O(n log n)
-Space Complexity: O(1) (ignoring input storage; only a few variables used)
-This is efficient and optimal for the fractional knapsack problemComplexity Analysis
-
-*/
-
-#include <bits/stdc++.h>
-
+#include <iostream>
+#include <climits>
+#include <time.h>
 using namespace std;
+#define V 5
+const char *homes[V] = {"A", "B", "C", "D", "E"};
 
-struct item
+int minKey(int key[], bool mstSet[])
 {
-    int weight;
-    int profit;
-};
-
-bool cmp(item a, item b)
-{
-    return (double)a.profit / a.weight > (double)b.profit / b.weight;
+    int m = INT_MAX, idx = -1;
+    for (int v = 0; v < V; v++)
+        if (!mstSet[v] && key[v] < m)
+            m = key[v], idx = v;
+    return idx;
 }
 
-void fracKnapsack(item items[], int n, int capacity)
+void primMST(int g[V][V])
 {
-    double totalProfit = 0.0;
-    sort(items, items + n, cmp);
-    cout << "Selected items(profit,weight):" << endl;
+    int parent[V], key[V];
+    bool mstSet[V];
+    for (int i = 0; i < V; i++)
+        key[i] = INT_MAX, mstSet[i] = 0;
+    key[0] = 0, parent[0] = -1;
 
-    for (int i = 0; i < n; i++)
+    for (int c = 0; c < V - 1; c++)
     {
-        if (capacity >= items[i].weight)
-        {
-            capacity -= items[i].weight;
-            totalProfit += items[i].profit;
-
-            cout << "(" << items[i].profit << "," << items[i].weight << ")- fully included" << endl;
-        }
-        else
-        {
-            double fraction = (double)capacity / items[i].weight;
-            totalProfit += items[i].profit * fraction;
-            cout << "(" << items[i].profit << ", " << items[i].weight << ") - " << fraction * 100 << "% included" << endl;
-            break;
-        }
+        int u = minKey(key, mstSet);
+        mstSet[u] = 1;
+        for (int v = 0; v < V; v++)
+            if (g[u][v] && !mstSet[v] && g[u][v] < key[v])
+                parent[v] = u, key[v] = g[u][v];
     }
 
-    cout << "Maximum profit: " << totalProfit << endl;
+    int total = 0;
+    cout << "Edge\tDist\n";
+    for (int i = 1; i < V; i++)
+        cout << homes[parent[i]] << "-" << homes[i] << "\t" << g[i][parent[i]] << "\n", total += g[i][parent[i]];
+    cout << "Total pipe length = " << total << " meters\n";
 }
 
 int main()
 {
-    item items[] = {
-        {1, 10}, {2, 15}, {3, 25}, {2, 12}};
-    int n = sizeof(items) / sizeof(items[0]);
-    int capacity = 5;
-
+    int g[V][V] = {
+        {0, 5, 0, 4, 0},
+        {5, 0, 7, 9, 0},
+        {0, 7, 0, 9, 5},
+        {4, 9, 9, 0, 8},
+        {0, 0, 5, 8, 0}};
     clock_t start = clock();
-    fracKnapsack(items, n, capacity);
-    clock_t end = clock();
 
-    double time_taken = ((double)(end - start)) / CLOCKS_PER_SEC * 1000;
-    cout << "Time taken: " << time_taken << " ms" << endl;
+    primMST(g);
+    clock_t end = clock();
+    cout << "Time: " << double(end - start) / CLOCKS_PER_SEC * 1e9 << " ns\n";
 
     return 0;
 }

@@ -1,85 +1,55 @@
 #include<bits/stdc++.h>
-
 using namespace std;
-using namespace chrono;
 
-void merge(vector<int> &arr, int left, int mid, int right) {
-  int n1 = mid - left + 1;
-  int n2 = right - mid;
+int a[100],n;
 
-  vector<int> leftArr(n1);
-  vector<int> rightArr(n2);
+//O(n log n)
+void merge(int l,int m,int r){
+    int n1=m-l+1, n2=r-m;
+    int L[n1],R[n2];
+    int i=0,j=0,k=l;
 
-  for (int i = 0; i < n1; ++i) {
-    leftArr[i] = arr[left + i];
-  }
-  for (int j = 0; j < n2; ++j) {
-    rightArr[j] = arr[mid + 1 + j];
-  }
-
-  int i = 0, j = 0, k = left;
-
-  while (i < n1 && j < n2) {
-    if (leftArr[i] <= rightArr[j]) {
-      arr[k] = leftArr[i];
-      ++i;
-    } else {
-      arr[k] = rightArr[j];
-      ++j;
+    for(int x=0;x<n1;x++){
+        L[x]=a[l+x];
     }
-    ++k;
-  }
-
-  while (i < n1) {
-    arr[k] = leftArr[i];
-    ++i;
-    ++k;
-  }
-
-  while (j < n2) {
-    arr[k] = rightArr[j];
-    ++j;
-    ++k;
-  }
+    for(int x=0;x<n2;x++){
+        R[x]=a[m+1+x];
+    }
+    while(i<n1 && j<n2)
+        a[k++]=(L[i]<=R[j])?L[i++]:R[j++];
+    while(i<n1)
+        a[k++]=L[i++];
+    while(j<n2)
+        a[k++]=R[j++];
 }
 
-void mergeSort(vector<int> &arr, int left, int right) {
-  if (left < right) {
-    int mid = left + (right - left) / 2;
-
-    mergeSort(arr, left, mid);
-    mergeSort(arr, mid + 1, right);
-
-    merge(arr, left, mid, right);
-  }
+void mergeSort(int l,int r){
+    if(l<r){
+        int m=l+(r-l)/2;
+        mergeSort(l,m);
+        mergeSort(m+1,r);
+        merge(l,m,r);
+    }
 }
 
-int main() {
-  int n;
-  cout << "Enter the number of elements: ";
-  cin >> n;
-  vector<int> array(n);
-  cout << "Enter the elements: ";
-  for (int i = 0; i < n; i++) {
-    cin >> array[i];
-  }
-
-  cout << "Initial array: ";
-  for (int i = 0; i < n; i++) {
-    cout << array[i] << " ";
-  }
-  cout << endl;
-
-  auto start = high_resolution_clock::now();
-  mergeSort(array, 0, array.size() - 1);
-  auto end = high_resolution_clock::now();
-  auto elapsedTime = duration_cast<nanoseconds>(end - start);
-
-  cout << "Sorted array Using Merge Sort: ";
-  for (int num : array) {
-    cout << num << " ";
-  }
-  cout << "\nTime taken: " << elapsedTime.count() << " nanoseconds\n";
-
-  return 0;
+int main()
+{
+    cout << "Enter n: ";
+    cin >> n;
+    cout << "Enter elements: ";
+    for (int i = 0; i < n; i++)
+        cin >> a[i];
+    cout << "Original: ";
+    for (int i = 0; i < n; i++)
+        cout << a[i] << " ";
+    cout << endl;
+    clock_t t = clock();
+    mergeSort(0, n - 1);
+    cout << "Sorted: ";
+    for (int i = 0; i < n; i++)
+        cout << a[i] << " ";
+    cout << "\nTime: " << double(clock() - t) / CLOCKS_PER_SEC * 1e9 << " ns\n";
 }
+
+// Enter n: 5
+// Enter elements: 64 34 25 12 22

@@ -1,0 +1,46 @@
+#include <iostream>
+#include <climits>
+#include <time.h>
+using namespace std;
+
+#define V 6
+const char* loc[V] = {"A", "B", "C", "D", "E", "F"};
+
+int minKey(int key[], bool mstSet[]) {
+    int m = INT_MAX, idx = -1;
+    for (int v = 0; v < V; v++) if (!mstSet[v] && key[v] < m) m = key[v], idx = v;
+    return idx;
+}
+void primMST(int g[V][V]) {
+    int p[V], k[V]; bool m[V];
+    for (int i = 0; i < V; i++) k[i] = INT_MAX, m[i] = 0;
+    k[0] = 0, p[0] = -1;
+    for (int c = 0; c < V - 1; c++) {
+        int u = minKey(k, m); m[u] = 1;
+        for (int v = 0; v < V; v++)
+            if (g[u][v] && !m[v] && g[u][v] < k[v]) p[v] = u, k[v] = g[u][v];
+    }
+    int total = 0;
+    cout << "Edge\tCost\n";
+    for (int i = 1; i < V; i++) 
+        cout << loc[p[i]] << "-" << loc[i] << "\t" << g[i][p[i]] << "\n", total += g[i][p[i]];
+        cout << "Minimum driving route cost = " << total << "\n";
+}
+int main() {
+    int g[V][V] = {
+        //A  B  C  D  E  F
+        {0, 4, 2, 0, 0, 0}, // A
+        {4, 0, 1, 0, 5, 0}, // B
+        {2, 1, 0, 3, 8, 0}, // C
+        {0, 0, 3, 0, 0, 7}, // D
+        {0, 5, 8, 0, 0, 9}, // E
+        {0, 0, 0, 7, 9, 0}  // F
+    };
+    clock_t start = clock();
+    primMST(g);
+    clock_t end = clock();
+    double total_time = double(end - start) / CLOCKS_PER_SEC;
+    cout << "Total program execution time: " << total_time * 1e9 << " ns\n";
+
+    return 0;
+}

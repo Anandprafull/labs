@@ -1,0 +1,199 @@
+// #include <bits/stdc++.h>
+// using namespace std;
+// #define V 7
+
+// const char *cities[V] = {"SF", "LA", "Denver", "Dallas", "Chicago", "NY", "Boston"};
+
+// int minDistance(int dist[], bool visited[])
+// {
+//     int min = INT_MAX, idx = -1;
+//     for (int v = 0; v < V; v++)
+//     {
+//         if (!visited[v] && dist[v] < min)
+//             min = dist[v], idx = v;
+//     }
+//     return idx;
+// }
+
+// void dijikstra(int graph[V][V], int src)
+// {
+//     int dist[V], parent[V];
+//     bool visited[V];
+//     for (int i = 0; i < V; i++)
+//         dist[i] = INT_MAX, visited[i] = false, parent[i] = -1;
+//     dist[src] = 0;
+//     for (int count = 0; count < V - 1; count++)
+//     {
+//         int u = minDistance(dist, visited);
+//         if (u == -1)
+//             break;
+//         visited[u] = true;
+//         for (int v = 0; v < V; v++)
+//             if (!visited[v] && graph[u][v] && dist[u] != INT_MAX && dist[u] + graph[u][v] < dist[v])
+//                 dist[v] = dist[u] + graph[u][v], parent[v] = u;
+//     }
+//     int target = 5;
+//     cout << "Shortest Time to NY: ";
+//     if (dist[target] == INT_MAX)
+//         cout << "NoPath\n";
+//     else
+//         cout << "Shortest distances from San Francisco:\n";
+//     for (int i = 0; i < V; i++)
+//         cout << cities[i] << ": " << dist[i] << " s\n";
+// }
+
+// int main()
+// {
+//     int graph[V][V] = {
+//         // sf  la dv dl ch ny bst
+//         {0, 3, 4, 0, 5, 0, 0}, // SF
+//         {3, 0, 0, 5, 7, 0, 0}, // LA
+//         {4, 0, 0, 4, 6, 0, 0}, // Denver
+//         {0, 5, 4, 0, 5, 6, 0}, // Dallas
+//         {5, 7, 6, 5, 0, 4, 3}, // Chicago
+//         {0, 0, 0, 6, 4, 0, 2}, // NY
+//         {0, 0, 0, 0, 3, 2, 0}  // Boston
+//     };
+
+//     clock_t start = clock();
+//     dijikstra(graph, 0);
+//     clock_t end = clock();
+//     double time_taken = double(end - start) / CLOCKS_PER_SEC;
+//     cout << "Algorithm execution time: " << time_taken * 1e9 << " ns\n";
+
+//     return 0;
+// }
+
+//-----------------------
+// #include <bits/stdc++.h>
+// using namespace std;
+// #define V 7
+
+// const char *cities[V] = {"SF", "LA", "Denver", "Dallas", "Chicago", "NY", "Boston"};
+
+// int minDistance(int dist[], bool visited[])
+// {
+//     int min = INT_MAX, idx = -1;
+//     for (int v = 0; v < V; v++)
+//         if (!visited[v] && dist[v] < min)
+//             min = dist[v], idx = v;
+//     return idx;
+// }
+
+// void dijkstra(int graph[V][V], int src)
+// {
+//     int dist[V];
+//     bool visited[V];
+//     for (int i = 0; i < V; i++)
+//         dist[i] = INT_MAX, visited[i] = false;
+//     dist[src] = 0;
+
+//     for (int count = 0; count < V - 1; count++)
+//     {
+//         int u = minDistance(dist, visited);
+//         visited[u] = true;
+//         for (int v = 0; v < V; v++)
+//             if (!visited[v] && graph[u][v] && dist[u] + graph[u][v] < dist[v])
+//                 dist[v] = dist[u] + graph[u][v];
+//     }
+
+//     cout << "Shortest distances from SF:\n";
+//     for (int i = 0; i < V; i++)
+//         cout << cities[i] << ": " << dist[i] << " s\n";
+// }
+
+// int main()
+// {
+//     int graph[V][V] = {
+//         {0, 3, 4, 0, 5, 0, 0}, {3, 0, 0, 5, 7, 0, 0}, {4, 0, 0, 4, 6, 0, 0}, {0, 5, 4, 0, 5, 6, 0}, {5, 7, 6, 5, 0, 4, 3}, {0, 0, 0, 6, 4, 0, 2}, {0, 0, 0, 0, 3, 2, 0}};
+
+//     clock_t start = clock();
+//     dijkstra(graph, 0);
+//     cout << "Time: " << double(clock() - start) / CLOCKS_PER_SEC * 1e9 << " ns\n";
+//     return 0;
+// }
+
+// -------------------------
+#include <bits/stdc++.h>
+using namespace std;
+#define V 7
+
+const char *cities[V] = {"SF", "LA", "Denver", "Dallas", "Chicago", "NY", "Boston"};
+
+int minDistance(int dist[], bool visited[])
+{
+    int min = INT_MAX, idx = -1;
+    for (int v = 0; v < V; v++)
+    {
+        if (!visited[v] && dist[v] < min)
+            min = dist[v], idx = v;
+    }
+    return idx;
+}
+
+void printPath(int parent[], int j) {
+    if (parent[j] == -1) {
+        cout << cities[j];
+        return;
+    }
+    printPath(parent, parent[j]);
+    cout << " -> " << cities[j];
+}
+
+void dijikstra(int graph[V][V], int src)
+{
+    int dist[V], parent[V];
+    bool visited[V];
+    for (int i = 0; i < V; i++)
+        dist[i] = INT_MAX, visited[i] = false, parent[i] = -1;
+    dist[src] = 0;
+    
+    for (int count = 0; count < V - 1; count++)
+    {
+        int u = minDistance(dist, visited);
+        if (u == -1)
+            break;
+        visited[u] = true;
+        for (int v = 0; v < V; v++)
+            if (!visited[v] && graph[u][v] && dist[u] != INT_MAX && dist[u] + graph[u][v] < dist[v])
+                dist[v] = dist[u] + graph[u][v], parent[v] = u;
+    }
+    
+    int target = 5; // NY
+    cout << "Shortest Time to NY: " << dist[target] << " s\n";
+    cout << "Path to NY: ";
+    printPath(parent, target);
+    cout << "\n\nShortest distances from San Francisco:\n";
+    
+    for (int i = 0; i < V; i++) {
+        cout << cities[i] << ": " << dist[i] << " s";
+        if (i != src) {
+            cout << " (Path: ";
+            printPath(parent, i);
+            cout << ")";
+        }
+        cout << "\n";
+    }
+}
+
+int main()
+{
+    int graph[V][V] = {
+    //sf  la dv dl ch ny bst 
+        {0, 3, 4, 0, 5, 0, 0},    // SF
+        {3, 0, 0, 5, 7, 0, 0},    // LA
+        {4, 0, 0, 4, 6, 0, 0},    // Denver
+        {0, 5, 4, 0, 5, 6, 0},    // Dallas
+        {5, 7, 6, 5, 0, 4, 3},    // Chicago
+        {0, 0, 0, 6, 4, 0, 2},    // NY
+        {0, 0, 0, 0, 3, 2, 0}     // Boston
+    };
+
+    clock_t start = clock();
+    dijikstra(graph, 0);
+    clock_t end = clock();
+    double time_taken = double(end - start) / CLOCKS_PER_SEC;
+    cout << "Algorithm execution time: " << time_taken * 1e9 << " ns\n";
+
+    return 0;
+}

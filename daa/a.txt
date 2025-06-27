@@ -1,0 +1,759 @@
+// ===============================================
+// PROGRAM 1: GCD ALGORITHMS
+// ===============================================
+#include<bits/stdc++.h>
+using namespace std;
+
+//Middle school Proceddure o(√min(a,b)) Factorization based
+int gcdM(int a, int b){
+    int gcd=1;
+    for(int i=2;i<=min(a,b);i++){
+        while(a%i==0 && b%i==0){
+            a/=i;
+            b/=i;
+            gcd*=i;
+        }
+        if(a==1||b==1) break;
+    }
+    return gcd;
+}
+
+//Euclid's Recursive algo  O(log(min(a,b))) - Extremely efficient
+int gcdE(int a, int b){
+    if(b==0){
+        return a;
+    }else{
+        return gcdE(b,a%b);
+    }
+}
+
+//cons int check Consecutive Integer: O(min(a,b)) - Brute force checking
+int gcdC(int a,int b){
+    int gcd=1;
+    for(int i=1;i<=min(a,b);i++){
+        if(a%i==0 && b%i==0){
+            gcd=i;
+        }
+    }
+    return gcd;
+}
+
+int main(){
+    int a,b;
+    cin>>a>>b;
+    cout<<"Gcd of "<<a<<" and "<<b<<" is : "<<endl;
+
+    clock_t startM=clock();
+    int r1=gcdM(a,b);
+    clock_t endM=clock();
+    double tM=double(endM-startM)/CLOCKS_PER_SEC;
+
+    clock_t startE=clock();
+    int r2=gcdE(a,b);
+    clock_t endE=clock();
+    double tE=double(endE-startE)/CLOCKS_PER_SEC;
+
+    clock_t start=clock();
+    int r3=gcdC(a,b);
+    clock_t end=clock();
+    double tC=double(end-start)/CLOCKS_PER_SEC;
+
+    cout<<"GCDm : "<<r1<<" time :"<<tM*(1e6)<<"us"<<endl;
+    cout<<"GCDe : "<<r2<<" time :"<<tE*(1e6)<<"us"<<endl;
+    cout<<"GCDc : "<<r3<<" time :"<<tC*(1e6)<<"us"<<endl;
+
+    return 0;
+}
+
+// ===============================================
+// PROGRAM 2: SEARCH ALGORITHMS
+// ===============================================
+#include<bits/stdc++.h>
+using namespace std;
+
+//linearSearchI o(n)
+int linSearchI(int arr[],int n,int key){
+    for(int i=0;i<n;i++){
+        if(arr[i]==key){
+            return i;
+        }
+    }
+    return -1;
+}
+
+//linearSearchRec o(n)
+int linSearchR(int arr[],int n,int key,int idx=0){
+    if(idx>=n){
+        return -1;
+    }
+    if(arr[idx]==key){
+        return idx;
+    }
+    return linSearchR(arr,n,key,idx+1);
+}
+
+//binarySearchI O(logn)
+int binSearchI(int arr[],int n, int key){
+    int left=0,right=n-1;
+    while(left<=right){
+        int mid=left+(right-left)/2;
+
+        if(arr[mid]==key){
+            return mid;
+        }else if(arr[mid]>key){
+            right=mid-1;
+        }else{
+            left=mid+1;
+        }
+    }
+    return -1;
+}
+
+// Binary Search Recursive - O(log n)
+int binSearchR(int arr[], int left,int right, int key){
+    if(left>right){
+        return -1;
+    }
+    int mid=left+(right-left)/2;
+    if(arr[mid]==key){
+        return mid;
+    }else if(arr[mid]>key){
+        return binSearchR(arr,left,mid-1,key);
+    }else{
+        return binSearchR(arr,mid+1,right,key);
+    }
+}
+
+void bubbleSort(int arr[],int n){
+    for(int i=0;i<n-1;i++){
+        for(int j=0;j<n-i-1;j++){
+            if(arr[j]>arr[j+1]){
+                swap(arr[j],arr[j+1]);
+            }
+        }
+    }
+}
+
+int main(){
+    int arr[]={3,5,6,1,7,9,3,9};
+    int n=sizeof(arr)/sizeof(arr[0]);
+    int key = 6;
+    
+    cout << "Original array: ";
+    for(int i=0; i<n; i++) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+    cout << "Searching for: " << key << endl << endl;
+
+    clock_t start1=clock();
+    int r1=linSearchI(arr,n,key);
+    clock_t end1=clock();
+    double t1=double(end1-start1)/CLOCKS_PER_SEC;
+
+    clock_t start2=clock();
+    int r2=linSearchR(arr,n,key);
+    clock_t end2=clock();
+    double t2=double(end2-start2)/CLOCKS_PER_SEC;
+
+    bubbleSort(arr,n);
+    cout << "Sorted array: ";
+    for(int i=0; i<n; i++) {
+        cout << arr[i] << " ";
+    }
+    cout << endl << endl;
+
+    clock_t start3=clock();
+    int r3=binSearchI(arr,n,key);
+    clock_t end3=clock();
+    double t3=double(end3-start3)/CLOCKS_PER_SEC;
+
+    clock_t start4=clock();
+    int r4=binSearchR(arr,0,n-1,key);
+    clock_t end4=clock();
+    double t4=double(end4-start4)/CLOCKS_PER_SEC;
+
+    cout << "Linear Search Iterative : " << r1 << " | Time: " << t1*1e9 << " ns" << endl;
+    cout << "Linear Search Recursive : " << r2 << " | Time: " << t2*1e9 << " ns" << endl;
+    cout << "Binary Search Iterative : " << r3 << " | Time: " << t3*1e9 << " ns" << endl;
+    cout << "Binary Search Recursive : " << r4 << " | Time: " << t4*1e9 << " ns" << endl;
+    return 0;
+}
+
+// ===============================================
+// PROGRAM 3: MERGE SORT
+// ===============================================
+#include<bits/stdc++.h>
+using namespace std;
+
+int a[100],n;
+
+//O(n log n)
+void merge(int l,int m,int r){
+    int n1=m-l+1, n2=r-m;
+    int L[n1],R[n2];
+    int i=0,j=0,k=l;
+
+    for(int x=0;x<n1;x++){
+        L[x]=a[l+x];
+    }
+    for(int x=0;x<n2;x++){
+        R[x]=a[m+1+x];
+    }
+    while(i<n1 && j<n2)
+        a[k++]=(L[i]<=R[j])?L[i++]:R[j++];
+    while(i<n1)
+        a[k++]=L[i++];
+    while(j<n2)
+        a[k++]=R[j++];
+}
+
+void mergeSort(int l,int r){
+    if(l<r){
+        int m=l+(r-l)/2;
+        mergeSort(l,m);
+        mergeSort(m+1,r);
+        merge(l,m,r);
+    }
+}
+
+int main()
+{
+    cout << "Enter n: ";
+    cin >> n;
+    cout << "Enter elements: ";
+    for (int i = 0; i < n; i++)
+        cin >> a[i];
+    cout << "Original: ";
+    for (int i = 0; i < n; i++)
+        cout << a[i] << " ";
+    cout << endl;
+    clock_t t = clock();
+    mergeSort(0, n - 1);
+    cout << "Sorted: ";
+    for (int i = 0; i < n; i++)
+        cout << a[i] << " ";
+    cout << "\nTime: " << double(clock() - t) / CLOCKS_PER_SEC * 1e9 << " ns\n";
+}
+
+// ===============================================
+// PROGRAM 4: QUICK SORT
+// ===============================================
+#include<bits/stdc++.h>
+#include<time.h>
+using namespace std;
+
+int a[1000],n;
+
+//O(n log n)
+int partition(int l,int h){
+    int p=a[h],i=l-1;
+    for(int j=l;j<h;j++){
+        if(a[j]<=p){
+            swap(a[++i],a[j]);
+        }
+    }
+    swap(a[++i],a[h]);
+    return i;
+}
+
+void quicksort(int l,int h){
+    if(l<h){
+        int pi=partition(l,h);
+        quicksort(l,pi-1);
+        quicksort(pi+1,h);
+    }
+}
+
+int main()
+{
+  cout << "Enter n: ";
+  cin >> n;
+  cout << "Enter elements: ";
+  for (int i = 0; i < n; i++)
+    cin >> a[i];
+
+  cout << "Original: ";
+  for (int i = 0; i < n; i++)
+    cout << a[i] << " ";
+  cout << endl;
+
+  clock_t t = clock();
+  quicksort(0, n - 1);
+
+  cout << "Sorted: ";
+  for (int i = 0; i < n; i++)
+    cout << a[i] << " ";
+  cout << "\nTime: " << double(clock() - t) / CLOCKS_PER_SEC * 1e9 << " ns\n";
+}
+
+// ===============================================
+// PROGRAM 5: BFS TRAVERSAL
+// ===============================================
+#include<bits/stdc++.h>
+#include<time.h>
+using namespace std;
+
+int a[100][100],s[100], v[100], p[100], V;
+
+int main(){
+    int E;
+    cout<<"Vertices, edges: ";
+    cin>>V>>E;
+    for(int i=0;i<E;i++){
+        int u,w;
+        cin>>u>>w;
+        a[u][s[u]++]=w;
+        a[w][s[w]++]=u;
+    }
+
+    fill(p,p+V,-1);
+    queue<int> q;
+    q.push(0);
+    v[0]=1;
+    clock_t t=clock();
+    cout<<"BFS: 0";
+
+    while(!q.empty()){
+        int u=q.front();
+        q.pop();
+        for(int i=0;i<s[u];i++){
+            int w=a[u][i];
+            if(!v[w]){
+                v[w]=1;
+                p[w]=u;
+                q.push(w);
+                cout<<w<<" ";
+            }
+        }
+    }
+    cout<<"\nTree: \n";
+    for(int i=0;i<V;i++){
+        if(p[i]!=-1){
+            cout<<p[i]<<"->"<<i<<endl;
+        }
+    }
+
+    cout<<"Time: "<<double(clock()-t)/CLOCKS_PER_SEC*1e9<<" ns\n";
+}
+
+// ===============================================
+// PROGRAM 6: DFS TRAVERSAL
+// ===============================================
+#include <bits/stdc++.h>
+#include <time.h>
+using namespace std;
+
+int am[100][100], vis[100], p[100], n;
+
+void dfs(int start)
+{
+    fill(vis, vis + n, 0);
+    fill(p, p + n, -1);
+    stack<int> s;
+    s.push(start);
+    vis[start] = 1;
+    cout << "DFS: " << start << " ";
+
+    while (!s.empty())
+    {
+        int v = s.top(), found = 0;
+        for (int i = 0; i < n && !found; i++)
+        {
+            if (am[v][i] && !vis[i])
+            {
+                vis[i] = 1;
+                p[i] = v;
+                s.push(i);
+                cout << i << " ";
+                found = 1;
+            }
+        }
+        if (!found)
+        {
+            s.pop();
+        }
+    }
+    cout << "\nSpanning Tree:\n";
+    for (int i = 1; i < n; i++)
+        if (p[i] != -1)
+            cout << p[i] << " -> " << i << "\n";
+}
+
+int main()
+{
+    cout << "Enter vertices: "; cin >> n;
+    cout << "Enter matrix:\n";
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+            cin >> am[i][j];
+
+    clock_t t = clock();
+    dfs(0);
+    cout << "Time: " << double(clock() - t) / CLOCKS_PER_SEC * 1e9 << " ns\n";
+}
+
+// ===============================================
+// PROGRAM 7: TOPOLOGICAL SORTING
+// ===============================================
+#include<bits/stdc++.h>
+#include<time.h>
+using namespace std;
+
+int adj[6][6]={
+    {0,1,1,0,0,0},{0,0,0,1,1,0},{0,0,0,0,1,0},{0,0,0,0,0,1},{0,0,0,0,0,1},{0,0,0,0,0,0}
+};
+int deg[6],vis[6],res[6],k;
+
+void dfs(int v){
+    vis[v]=1;
+    for(int i=0;i<6;i++){
+        if(adj[v][i] && !vis[i]){
+            dfs(i);
+        }
+    }
+    res[k++]=v;
+}
+
+int main(){
+     for (int i = 0; i < 6; i++)
+        if (!vis[i])
+            dfs(i);
+    cout << "DFS: ";
+
+    for (int i = k - 1; i >= 0; i--)
+        cout << res[i] << " ";
+
+    for (int i = 0; i < 6; i++)
+        for (int j = 0; j < 6; j++)
+            deg[i] += adj[j][i];
+    queue<int> q;
+    for (int i = 0; i < 6; i++)
+        if (!deg[i])
+            q.push(i);
+    cout << "\nKahn: ";
+    while (!q.empty())
+    {
+        int u = q.front();
+        q.pop();
+        cout << u << " ";
+        for (int i = 0; i < 6; i++)
+            if (adj[u][i] && --deg[i] == 0)
+                q.push(i);
+    }
+}
+
+// ===============================================
+// PROGRAM 8: PRIM'S MST (SPRINKLER SYSTEM)
+// ===============================================
+#include <iostream>
+#include <climits>
+using namespace std;
+#define V 6
+const char *sprinklers[V] = {"A", "B", "C", "D", "E", "F"};
+
+int minKey(int key[], bool mstSet[]){
+    int m = INT_MAX, idx = -1;
+    for (int v = 0; v < V; v++)
+        if (!mstSet[v] && key[v] < m)
+            m = key[v], idx = v;
+    return idx;
+}
+
+void primMST(int g[V][V], int start){
+    int parent[V], key[V];
+    bool mstSet[V];
+    for (int i = 0; i < V; i++)
+        key[i] = INT_MAX, mstSet[i] = 0;
+    key[start] = 0, parent[start] = -1;
+    for (int c = 0; c < V - 1; c++)
+    {
+        int u = minKey(key, mstSet);
+        mstSet[u] = 1;
+        for (int v = 0; v < V; v++)
+            if (g[u][v] && !mstSet[v] && g[u][v] < key[v])
+                parent[v] = u, key[v] = g[u][v];
+    }
+    int total = 0;
+    cout << "Edge\tLength\n";
+    for (int i = 0; i < V; i++)
+        if (parent[i] != -1)
+            cout << sprinklers[parent[i]] << "-" << sprinklers[i] << "\t" << g[i][parent[i]] << "\n", total += g[i][parent[i]];
+    cout << "Total piping needed = " << total << " meters\n";
+}
+
+int main()
+{
+    int g[V][V] = {
+        // A B C D E F
+        {0, 5, 2, 6, 0, 0}, // A
+        {5, 0, 2, 0, 0, 0}, // B
+        {2, 2, 0, 0, 3, 0}, // C
+        {6, 0, 0, 0, 3, 7}, // D
+        {0, 0, 3, 3, 0, 8}, // E
+        {0, 0, 0, 7, 8, 0}  // F
+    };
+    primMST(g, 5); // Start from F (index 5)
+    return 0;
+}
+
+// ===============================================
+// PROGRAM 9: PRIM'S MST (DRIVING ROUTE)
+// ===============================================
+#include <iostream>
+#include <climits>
+#define V 6
+const char* loc[V] = {"A", "B", "C", "D", "E", "F"};
+
+int minKey(int key[], bool mstSet[]) {
+    int m = INT_MAX, idx = -1;
+    for (int v = 0; v < V; v++) 
+        if (!mstSet[v] && key[v] < m) 
+            m = key[v], idx = v;
+    return idx;
+}
+
+void primMST(int g[V][V]) {
+    int p[V], k[V]; 
+    bool m[V];
+    for (int i = 0; i < V; i++) 
+        k[i] = INT_MAX, m[i] = 0;
+    k[0] = 0, p[0] = -1;
+    for (int c = 0; c < V - 1; c++) {
+        int u = minKey(k, m); 
+        m[u] = 1;
+        for (int v = 0; v < V; v++)
+            if (g[u][v] && !m[v] && g[u][v] < k[v]) 
+                p[v] = u, k[v] = g[u][v];
+    }
+    int total = 0;
+    std::cout << "Edge\tCost\n";
+    for (int i = 1; i < V; i++) 
+        std::cout << loc[p[i]] << "-" << loc[i] << "\t" << g[i][p[i]] << "\n", total += g[i][p[i]];
+    std::cout << "Minimum driving route cost = " << total << "\n";
+}
+
+int main() {
+    int g[V][V] = {
+        //A  B  C  D  E  F
+        {0, 4, 2, 0, 0, 0}, // A
+        {4, 0, 1, 0, 5, 0}, // B
+        {2, 1, 0, 3, 8, 0}, // C
+        {0, 0, 3, 0, 0, 7}, // D
+        {0, 5, 8, 0, 0, 9}, // E
+        {0, 0, 0, 7, 9, 0}  // F
+    };
+    primMST(g);
+    return 0;
+}
+
+// ===============================================
+// PROGRAM 10: 0/1 KNAPSACK (VERSION 1)
+// ===============================================
+#include <bits/stdc++.h>
+using namespace std;
+
+int knapsack(int W, int wt[], int val[], int n)
+{
+    int dp[n + 1][W + 1];
+    for (int i = 0; i <= n; i++)
+    {
+        dp[i][0] = 0;
+    }
+    for (int j = 0; j <= W; j++)
+    {
+        dp[0][j] = 0;
+    }
+
+    for (int i = 1; i <= n; i++)
+    {
+        for (int j = 1; j <= W; j++)
+        {
+            if (wt[i - 1] > j)
+            {
+                dp[i][j] = dp[i - 1][j];
+            }
+            else
+            {
+                dp[i][j] = max(val[i - 1] + dp[i - 1][j - wt[i - 1]], dp[i - 1][j]);
+            }
+        }
+    }
+    return dp[n][W];
+}
+
+int main()
+{
+    int val[] = {10, 15, 25, 12};
+    int wt[] = {1,2,3,2};
+    int W = 5;
+    int n = 4;
+    clock_t start = clock();
+    cout << "Maximum value in knapsack:" << knapsack(W, wt, val, n) << endl;
+    clock_t end = clock();
+
+    double time_taken = ((double)(end - start)) / CLOCKS_PER_SEC * 1000;
+    cout << "Time Taken: " << time_taken << "ms" << endl;
+    return 0;
+}
+
+// ===============================================
+// PROGRAM 11: DIJKSTRA'S SHORTEST PATH
+// ===============================================
+#include <bits/stdc++.h>
+using namespace std;
+#define V 7
+
+const char *cities[V] = {"SF", "LA", "Denver", "Dallas", "Chicago", "NY", "Boston"};
+
+int minDistance(int dist[], bool visited[])
+{
+    int min = INT_MAX, idx = -1;
+    for (int v = 0; v < V; v++)
+    {
+        if (!visited[v] && dist[v] < min)
+            min = dist[v], idx = v;
+    }
+    return idx;
+}
+
+void dijikstra(int graph[V][V], int src)
+{
+    int dist[V], parent[V];
+    bool visited[V];
+    for (int i = 0; i < V; i++)
+        dist[i] = INT_MAX, visited[i] = false, parent[i] = -1;
+    dist[src] = 0;
+    for (int count = 0; count < V - 1; count++)
+    {
+        int u = minDistance(dist, visited);
+        if (u == -1)
+            break;
+        visited[u] = true;
+        for (int v = 0; v < V; v++)
+            if (!visited[v] && graph[u][v] && dist[u] != INT_MAX && dist[u] + graph[u][v] < dist[v])
+                dist[v] = dist[u] + graph[u][v], parent[v] = u;
+    }
+    int target = 5;
+    cout << "Shortest Time to NY: ";
+    if (dist[target] == INT_MAX)
+        cout << "NoPath\n";
+    else
+        cout << "Shortest distances from San Francisco:\n";
+        for (int i = 0; i < V; i++) 
+            cout << cities[i] << ": " << dist[i] << " s\n";
+}
+
+int main()
+{
+  int graph[V][V] = {
+  //sf  la dv dl ch ny bst 
+    {0, 3, 4, 0, 5, 0, 0},    // SF
+    {3, 0, 0, 5, 7, 0, 0},    // LA
+    {4, 0, 0, 4, 6, 0, 0},    // Denver
+    {0, 5, 4, 0, 5, 6, 0},    // Dallas
+    {5, 7, 6, 5, 0, 4, 3},    // Chicago
+    {0, 0, 0, 6, 4, 0, 2},    // NY
+    {0, 0, 0, 0, 3, 2, 0}     // Boston
+};
+    dijikstra(graph, 0);
+    return 0;
+}
+
+// ===============================================
+// PROGRAM 12: PRIM'S MST (HOMES)
+// ===============================================
+#include <iostream>
+#include <climits>
+#define V 5
+const char* homes[V] = {"A", "B", "C", "D", "E"};
+
+int minKey(int key[], bool mstSet[]) {
+    int m = INT_MAX, idx = -1;
+    for (int v = 0; v < V; v++) 
+        if (!mstSet[v] && key[v] < m) 
+            m = key[v], idx = v;
+    return idx;
+}
+
+void primMST(int g[V][V]) {
+    int parent[V], key[V]; 
+    bool mstSet[V];
+    for (int i = 0; i < V; i++) 
+        key[i] = INT_MAX, mstSet[i] = 0;
+    key[0] = 0, parent[0] = -1;
+    for (int c = 0; c < V - 1; c++) {
+        int u = minKey(key, mstSet); 
+        mstSet[u] = 1;
+        for (int v = 0; v < V; v++)
+            if (g[u][v] && !mstSet[v] && g[u][v] < key[v]) 
+                parent[v] = u, key[v] = g[u][v];
+    }
+    int total = 0;
+    std::cout << "Edge\tDist\n";
+    for (int i = 1; i < V; i++) 
+        std::cout << homes[parent[i]] << "-" << homes[i] << "\t" << g[i][parent[i]] << "\n", total += g[i][parent[i]];
+    std::cout << "Total pipe length = " << total << " meters\n";
+}
+
+int main() {
+    int g[V][V] = {
+        {0,5,0,4,0},
+        {5,0,7,9,0},
+        {0,7,0,9,5},
+        {4,9,9,0,8},
+        {0,0,5,8,0}
+    };
+    primMST(g);
+    return 0;
+}
+
+// ===============================================
+// PROGRAM 13: 0/1 KNAPSACK (VERSION 2)
+// ===============================================
+#include <bits/stdc++.h>
+using namespace std;
+
+int knapsack(int W, int wt[], int val[], int n)
+{
+    int dp[n + 1][W + 1];
+    for (int i = 0; i <= n; i++)
+    {
+        dp[i][0] = 0;
+    }
+    for (int j = 0; j <= W; j++)
+    {
+        dp[0][j] = 0;
+    }
+
+    for (int i = 1; i <= n; i++)
+    {
+        for (int j = 1; j <= W; j++)
+        {
+            if (wt[i - 1] > j)
+            {
+                dp[i][j] = dp[i - 1][j];
+            }
+            else
+            {
+                dp[i][j] = max(val[i - 1] + dp[i - 1][j - wt[i - 1]], dp[i - 1][j]);
+            }
+        }
+    }
+    return dp[n][W];
+}
+
+int main()
+{
+    int val[] = {10, 20, 50, 60};
+    int wt[] = {2, 3, 4, 5};
+    int W = 8;
+    int n = 4;
+    clock_t start = clock();
+    cout << "Maximum value in knapsack:" << knapsack(W, wt, val, n) << endl;
+    clock_t end = clock();
+
+    double time_taken = ((double)(end - start)) / CLOCKS_PER_SEC * 1000;
+    cout << "Time Taken: " << time_taken << "ms" << endl;
+    return 0;
+}

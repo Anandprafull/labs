@@ -1,66 +1,52 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
+#include<time.h>
 using namespace std;
-using namespace chrono;
 
-void addEdge(vector<int> adj[], int u, int v) {
-    adj[u].push_back(v);
-    adj[v].push_back(u);
-}
+int a[100][100],s[100], v[100], p[100], V;
 
-void BFS(vector<int> adj[], int V, int start) {
-    vector<bool> visited(V + 1, false);
-    vector<int> parent(V + 1, -1);
+int main(){
+    int E;
+    cout<<"Vertices, edges: ";
+    cin>>V>>E;
+    for(int i=0;i<E;i++){
+        int u,w;
+        cin>>u>>w;
+        a[u][s[u]++]=w;
+        a[w][s[w]++]=u;
+    }
+    fill(p,p+V,-1);
     queue<int> q;
+    q.push(0);
+    v[0]=1;
+    clock_t t=clock();
+    cout<<"BFS: 0";
 
-    visited[start] = true;
-    q.push(start);
-
-    cout << "BFS Traversal: ";
-    while (!q.empty()) {
-        int current = q.front();
+    while(!q.empty()){
+        int u=q.front();
         q.pop();
-        cout << current << " ";
-        for (int neighbor : adj[current]) {
-            if (!visited[neighbor]) {
-                visited[neighbor] = true;
-                parent[neighbor] = current;
-                q.push(neighbor);
+        for(int i=0;i<s[u];i++){
+            int w=a[u][i];
+            if(!v[w]){
+                v[w]=1;
+                p[w]=u;
+                q.push(w);
+                cout<<w<<" ";
             }
         }
     }
-
-    cout << "\nBFS Spanning Tree:\n";
-    for (int i = 1; i <= V; i++) {
-        if (parent[i] != -1) {
-            cout << "Parent of " << i << ": " << parent[i] << endl;
+    cout<<"\nTree: \n";
+    for(int i=0;i<V;i++){
+        if(p[i]!=-1){
+            cout<<p[i]<<"->"<<i<<endl;
         }
     }
+
+    cout<<"Time: "<<double(clock()-t)/CLOCKS_PER_SEC*1e9<<" ns\n";
 }
 
-int main() {
-    int V, E;
-    cout << "Enter vertices and edges: ";
-    cin >> V >> E;
-
-    vector<int> adj[V + 1];
-    cout << "Enter edges (u v):\n";
-    for (int i = 0; i < E; i++) {
-        int u, v;
-        cin >> u >> v;
-        addEdge(adj, u, v);
-    }
-
-    int start;
-    cout << "Enter starting node: ";
-    cin >> start;
-
-    auto start_time = high_resolution_clock::now();
-    BFS(adj, V, start);
-    auto end_time = high_resolution_clock::now();
-
-    cout << "Execution Time: " 
-         << duration_cast<nanoseconds>(end_time - start_time).count() 
-         << " ns\n";
-
-    return 0;
-}
+// Enter vertices: 4
+// Enter matrix:
+// 0 1 1 0
+// 1 0 0 1
+// 1 0 0 1
+// 0 1 1 0
