@@ -1,0 +1,173 @@
+import java.net.*;
+
+class UDPServer {
+    public static void main(String[] args) throws Exception {
+        DatagramSocket serverSocket = new DatagramSocket(9876);
+        byte[] buffer = new byte[1024];
+        System.out.println("Server is running...");
+
+        while (true) {
+            DatagramPacket receivePacket = new DatagramPacket(buffer, buffer.length);
+            serverSocket.receive(receivePacket);
+
+            String receivedMsg = new String(receivePacket.getData(), 0, receivePacket.getLength());
+            System.out.println("FROM CLIENT: " + receivedMsg);
+
+            InetAddress ip = receivePacket.getAddress();
+            int port = receivePacket.getPort();
+
+            String responseMsg = "SERVER MSG: Acknowledged! | RESULT: " + receivedMsg.toUpperCase();
+            byte[] sendData = responseMsg.getBytes();
+
+            DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, ip, port);
+            serverSocket.send(sendPacket);
+        }
+    }
+}
+
+import java.io.*;
+import java.net.*;
+
+class UDPClient {
+    public static void main(String[] args) throws Exception {
+        BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
+        DatagramSocket clientSocket = new DatagramSocket();
+        InetAddress ip = InetAddress.getByName("localhost");
+
+        System.out.print("Enter a string: ");
+        String sentence = inFromUser.readLine();
+
+        byte[] sendData = sentence.getBytes();
+        DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, ip, 9876);
+        clientSocket.send(sendPacket);
+
+        byte[] buffer = new byte[1024];
+        DatagramPacket receivePacket = new DatagramPacket(buffer, buffer.length);
+        clientSocket.receive(receivePacket);
+
+        String serverResponse = new String(receivePacket.getData(), 0, receivePacket.getLength());
+        System.out.println("FROM SERVER: " + serverResponse);
+
+        clientSocket.close();
+    }
+}
+-------------------------------------------------------------------------------------------------
+import java.util.*;
+
+public class crc {
+    public static void main(String[] args) {
+        final int POLYNOMIAL = 0x1021;  // x^16 + x^12 + x^5 + 1
+        final int INITIAL_VALUE = 0xFFFF;
+
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter message: ");
+        String message = sc.nextLine();
+        byte[] data = message.getBytes();
+
+        int crc = INITIAL_VALUE;
+        for (byte b : data) {
+            crc ^= (b << 8);
+            for (int i = 0; i < 8; i++) {
+                if ((crc & 0x8000) != 0)
+                    crc = (crc << 1) ^ POLYNOMIAL;
+                else
+                    crc <<= 1;
+                crc &= 0xFFFF; 
+            }
+        }
+
+        System.out.printf("Generated CRC (hex): %04X%n", crc);
+
+        System.out.print("Enter received CRC (hex): ");
+        String recvStr = sc.nextLine();
+        int receivedCRC = Integer.parseInt(recvStr, 16);
+
+        int verifyCRC = INITIAL_VALUE;
+        for (byte b : data) {
+            verifyCRC ^= (b << 8);
+            for (int i = 0; i < 8; i++) {
+                if ((verifyCRC & 0x8000) != 0)
+                    verifyCRC = (verifyCRC << 1) ^ POLYNOMIAL;
+                else
+                    verifyCRC <<= 1;
+                verifyCRC &= 0xFFFF;
+            }
+        }
+
+        if (verifyCRC == receivedCRC)
+            System.out.println("✅ Data integrity verified: No error detected");
+        else
+            System.out.println("❌ CRC mismatch: Data corruption detected");
+    }
+}
+------------------------------------------------------------------------
+import java.net.*;
+import java.io.*;
+
+class TCPS {
+    public static void main(String[] a) throws Exception {
+        var s = new ServerSocket(4000).accept();
+        try {
+            new FileInputStream(
+              new BufferedReader(new InputStreamReader(s.getInputStream())).readLine()).transferTo(s.getOutputStream());
+        } catch (Exception e) {
+            s.getOutputStream().write("Error: File not found.".getBytes());
+        }
+    }
+}
+
+import java.net.*;
+import java.io.*;
+
+class TCPC {
+    public static void main(String[] a) throws Exception {
+        var s = new Socket("localhost", 4000);
+        new PrintWriter(s.getOutputStream(), true).println(new BufferedReader(new InputStreamReader(System.in)).readLine());
+        s.getInputStream().transferTo(System.out);
+    }
+}
+-----------------------------------------------------------------------
+public class Ford {
+    private static final int MAX_VALUE = 999;
+
+    public static void main(String[] args) {
+        int n = 5;
+        int src = 0; 
+        
+        int[][] A = {
+            {0,  6,  7, 999, 999},
+            {999, 0,  8,  5, 999},
+            {999, 999, 0,  9, 999},
+            {999, 999, 999, 0,  2},
+            {3,  999, 999, 999, 0}
+        };
+
+        int[] D = new int[n];  
+        for (int i = 0; i < n; i++) D[i] = MAX_VALUE;
+        D[src] = 0;
+
+        for (int i = 0; i < n - 1; i++) {
+            for (int u = 0; u < n; u++) {
+                for (int v = 0; v < n; v++) {
+                    if (A[u][v] != MAX_VALUE && D[u] != MAX_VALUE && D[v] > D[u] + A[u][v]) {
+                        D[v] = D[u] + A[u][v];
+                    }
+                }
+            }
+        }
+
+        for (int u = 0; u < n; u++) {
+            for (int v = 0; v < n; v++) {
+                if (A[u][v] != MAX_VALUE && D[u] != MAX_VALUE && D[v] > D[u] + A[u][v]) {
+                    System.out.println("Graph contains negative weight cycle");
+                    return;
+                }
+            }
+        }
+
+        System.out.println("Shortest distances from source vertex " + (src + 1));
+        for (int i = 0; i < n; i++) {
+            System.out.println("Distance to vertex " + (i + 1) + " is " + D[i]);
+        }
+    }
+}
