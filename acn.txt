@@ -1,56 +1,48 @@
 import java.net.*;
 
-class UDPServer {
+public class UDPServer {
     public static void main(String[] args) throws Exception {
-        DatagramSocket serverSocket = new DatagramSocket(9876);
-        byte[] buffer = new byte[1024];
-        System.out.println("Server is running...");
+        DatagramSocket socket = new DatagramSocket(9876);
+        byte[] buf = new byte[1024];
+        System.out.println("Server running...");
 
         while (true) {
-            DatagramPacket receivePacket = new DatagramPacket(buffer, buffer.length);
-            serverSocket.receive(receivePacket);
+            DatagramPacket pkt = new DatagramPacket(buf, buf.length);
+            socket.receive(pkt);
+            String msg = new String(pkt.getData(), 0, pkt.getLength());
+            System.out.println("Client: " + msg);
 
-            String receivedMsg = new String(receivePacket.getData(), 0, receivePacket.getLength());
-            System.out.println("FROM CLIENT: " + receivedMsg);
-
-            InetAddress ip = receivePacket.getAddress();
-            int port = receivePacket.getPort();
-
-            String responseMsg = "SERVER MSG: Acknowledged! | RESULT: " + receivedMsg.toUpperCase();
-            byte[] sendData = responseMsg.getBytes();
-
-            DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, ip, port);
-            serverSocket.send(sendPacket);
+            String reply = "ACK | " + msg.toUpperCase();
+            byte[] out = reply.getBytes();
+            socket.send(new DatagramPacket(out, out.length, pkt.getAddress(), pkt.getPort()));
         }
     }
 }
 
-import java.io.*;
+
 import java.net.*;
+import java.io.*;
 
-class UDPClient {
+public class UDPClient {
     public static void main(String[] args) throws Exception {
-        BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
-        DatagramSocket clientSocket = new DatagramSocket();
-        InetAddress ip = InetAddress.getByName("localhost");
+        DatagramSocket socket = new DatagramSocket();
+        InetAddress ip = InetAddress.getLocalHost();
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        System.out.print("Enter a string: ");
-        String sentence = inFromUser.readLine();
+        System.out.print("Enter message: ");
+        String msg = br.readLine();
 
-        byte[] sendData = sentence.getBytes();
-        DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, ip, 9876);
-        clientSocket.send(sendPacket);
+        socket.send(new DatagramPacket(msg.getBytes(), msg.length(), ip, 9876));
 
-        byte[] buffer = new byte[1024];
-        DatagramPacket receivePacket = new DatagramPacket(buffer, buffer.length);
-        clientSocket.receive(receivePacket);
+        byte[] buf = new byte[1024];
+        DatagramPacket pkt = new DatagramPacket(buf, buf.length);
+        socket.receive(pkt);
 
-        String serverResponse = new String(receivePacket.getData(), 0, receivePacket.getLength());
-        System.out.println("FROM SERVER: " + serverResponse);
-
-        clientSocket.close();
+        System.out.println("Server: " + new String(pkt.getData(), 0, pkt.getLength()));
+        socket.close();
     }
 }
+
 -------------------------------------------------------------------------------------------------
 import java.util.*;
 
