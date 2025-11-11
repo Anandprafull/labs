@@ -34,5 +34,6 @@ echo "All files downloaded successfully to $DEST_DIR"
 
 
 
-sudo chown -R $(whoami):$(whoami) /syst
-sudo ./download_files.sh
+# sudo chown -R $(whoami):$(whoami) /code
+# sudo ./1.sh or bash 1.sh
+# cp /code/aes.txt ~/Desktop/aes.java
