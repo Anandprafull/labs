@@ -1,0 +1,23 @@
+import javax.crypto.*; 
+import javax.crypto.spec.*;
+import java.security.*; 
+import java.util.*;
+
+public class des {
+  static SecretKey k(String p)throws Exception{
+    return SecretKeyFactory.getInstance("DES").generateSecret(new DESKeySpec(Arrays.copyOf(p.getBytes(),8)));
+  }
+  public static void main(String[] a)throws Exception{
+    Scanner s=new Scanner(System.in);
+    Cipher c=Cipher.getInstance("DES/CBC/PKCS5Padding");
+
+    byte[] iv=new byte[8]; new SecureRandom().nextBytes(iv);
+    SecretKey K=k(s.nextLine());
+
+    c.init(Cipher.ENCRYPT_MODE,K,new IvParameterSpec(iv));
+    String e=Base64.getEncoder().encodeToString(c.doFinal(s.nextLine().getBytes()));
+
+    c.init(Cipher.DECRYPT_MODE,K,new IvParameterSpec(iv));
+    System.out.println("Enc:"+e+"\nDec:"+new String(c.doFinal(Base64.getDecoder().decode(e))));
+  }
+}
