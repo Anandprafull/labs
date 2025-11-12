@@ -1,19 +1,14 @@
-import javax.crypto.*;
-import javax.crypto.spec.*;
-import java.util.*;
-
-public class aes{
-        public static void main(String[] a) throws Exception{
-                Scanner s = new Scanner(System.in);
-                System.out.print("Key(16): ");
-                SecretKeySpec k = new SecretKeySpec(s.nextLine().getBytes(),"AES");
-                Cipher c = Cipher.getInstance("AES");
-                System.out.print("Msg");
-                String m = s.nextLine();
-                c.init(Cipher.ENCRYPT_MODE,k);
-                String e = Base64.getEncoder().encodeToString(c.doFinal(m.getBytes()));
-                System.out.println("Enc: " +e);
-                c.init(Cipher.DECRYPT_MODE,k);
-                System.out.println("Dec: "+new String(c.doFinal(Base64.getDecoder().de>
-        }
+public class PFGolf {
+  public static void main(String[]a){
+    String k="KEYWORD",s="HELLO",t="",r="";
+    k=(k+"ABCDEFGHIKLMNOPQRSTUVWXYZ").toUpperCase().replaceAll("[^A-Z]","").replace('J','I');
+    for(char c:k.toCharArray()) if(t.indexOf(c)<0)t+=c;
+    for(int i=0;i<s.length();i+=2){
+      char A=s.charAt(i),B=i+1<s.length()?s.charAt(i+1):'X'; if(A==B)B='X';
+      int x=t.indexOf(A),y=t.indexOf(B),r1=x/5,c1=x%5,r2=y/5,c2=y%5;
+      r+= r1==r2?t.charAt(r1*5+(c1+1)%5)+""+t.charAt(r2*5+(c2+1)%5):
+          c1==c2?t.charAt(((r1+1)%5)*5+c1)+""+t.charAt(((r2+1)%5)*5+c2):
+          t.charAt(r1*5+c2)+""+t.charAt(r2*5+c1);
+    }System.out.println(r);
+  }
 }
