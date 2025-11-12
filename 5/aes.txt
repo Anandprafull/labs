@@ -2,18 +2,20 @@ import javax.crypto.*;
 import javax.crypto.spec.*;
 import java.util.*;
 
-public class aes{
-        public static void main(String[] a) throws Exception{
-                Scanner s = new Scanner(System.in);
-                System.out.print("Key(16): ");
-                SecretKeySpec k = new SecretKeySpec(s.nextLine().getBytes(),"AES");
-                Cipher c = Cipher.getInstance("AES");
-                System.out.print("Msg");
-                String m = s.nextLine();
-                c.init(Cipher.ENCRYPT_MODE,k);
-                String e = Base64.getEncoder().encodeToString(c.doFinal(m.getBytes()));
-                System.out.println("Enc: " +e);
-                c.init(Cipher.DECRYPT_MODE,k);
-                System.out.println("Dec: "+new String(c.doFinal(Base64.getDecoder().de>
-        }
+public class aes {
+    public static void main(String[] a) throws Exception {
+        Scanner s = new Scanner(System.in);
+        System.out.print("Key (16 chars): ");
+        SecretKeySpec k = new SecretKeySpec(s.nextLine().getBytes(), "AES");
+        Cipher c = Cipher.getInstance("AES");
+        System.out.print("Msg: ");
+        String m = s.nextLine();
+        
+        c.init(Cipher.ENCRYPT_MODE, k);
+        String e = Base64.getEncoder().encodeToString(c.doFinal(m.getBytes()));
+        System.out.println("Enc: " + e);
+        
+        c.init(Cipher.DECRYPT_MODE, k);
+        System.out.println("Dec: " + new String(c.doFinal(Base64.getDecoder().decode(e))));
+    }
 }
