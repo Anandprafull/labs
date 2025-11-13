@@ -15,6 +15,6 @@ public class rsa {
                 System.out.println("Enc:"+e);
         
                 c.init(Cipher.DECRYPT_MODE,k.getPrivate());
-                System.out.println("Dec:"+new String(c.doFinal(Base64.getDecoder().dec>
+                System.out.println("Dec:"+new String(c.doFinal(Base64.getDecoder().decode(e))));
         }
 }
