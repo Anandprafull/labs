@@ -1,36 +1,56 @@
 #!/bin/bash
 
-# Define the destination directory
-DEST_DIR="/code"
+BASE="/logs"
+ACN="$BASE/acn"
+CNS="$BASE/cns"
+JAVA="$BASE/java"
 
-# Create the directory if it doesn't exist
-if [ ! -d "$DEST_DIR" ]; then
-  sudo mkdir -p "$DEST_DIR"
-  echo "Directory $DEST_DIR created."
-fi
+sudo mkdir -p "$ACN" "$CNS" "$JAVA"
 
-# List of URLs to download
-URLs=(
-    "https://anandprafull.github.io/labs/5/aes.txt"
-    "https://anandprafull.github.io/labs/5/des.txt"
-    "https://anandprafull.github.io/labs/5/rsa.txt"
-    "https://anandprafull.github.io/labs/5/CaesarCipher.txt"
-    "https://anandprafull.github.io/labs/5/PlayFair.txt"
-    
-    "https://anandprafull.github.io/labs/5/tcp.txt"
-    "https://anandprafull.github.io/labs/5/udp.txt"
-    "https://anandprafull.github.io/labs/5/crc.txt"
-    "https://anandprafull.github.io/labs/5/ford.txt"
-
-
+URLs_ACN=(
+  "https://raw.githubusercontent.com/0elon/1/main/acn/1.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/acn/2.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/acn/3.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/acn/4.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/acn/5.txt"
 )
 
-# Download each file and save it to the destination directory with sudo
-for URL in "${URLs[@]}"; do
-    sudo wget -P "$DEST_DIR" "$URL"
-done
+URLs_CNS=(
+  "https://raw.githubusercontent.com/0elon/1/main/cns/aes.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/cns/des.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/cns/rsa.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/cns/CaesarCipher.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/cns/PlayFair.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/cns/b1.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/cns/b2.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/cns/b3.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/cns/b4.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/cns/h.txt"
+)
 
-echo "All files downloaded successfully to $DEST_DIR"
+URLs_JAVA=(
+  "https://raw.githubusercontent.com/0elon/1/main/java/h.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/java/m.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/java/P1.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/java/P2.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/java/P3.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/java/P4.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/java/P5.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/java/P6.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/java/P7.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/java/P8.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/java/P9.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/java/P10.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/java/P11.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/java/P12.txt"
+)
+
+for u in "${URLs_ACN[@]}";  do sudo wget -P "$ACN" "$u";  done
+for u in "${URLs_CNS[@]}";  do sudo wget -P "$CNS" "$u";  done
+for u in "${URLs_JAVA[@]}"; do sudo wget -P "$JAVA" "$u"; done
+
+echo "All files downloaded into structured folders under $BASE"
+
 
 
 
