@@ -1,0 +1,808 @@
+1. Quadratic Equation, Array, and Bubble Sort (P1.java)
+Modifications required but only partially implemented in the source: Encapsulation of root calculation in a QuadraticEquation class with RootResult and ComplexNumber classes.
+Code (Using the simplified combined implementation found in source P1.java):
+import java.util.*;
+
+public class P1 {
+    // Part a: Quadratic Roots (For x^2 + px + q = 0, or simplified calculation)
+    public static void findQuadraticRoots(double p, double q) {
+        double discriminant = p*p - 4*q;
+        if (discriminant >= 0) {
+            double root1 = (-p + Math.sqrt(discriminant)) / 2;
+            double root2 = (-p - Math.sqrt(discriminant)) / 2;
+            System.out.println("Roots: " + root1 + "," + root2);
+        } else {
+            System.out.println("No real roots, discriminant is negative.");
+        }
+    }
+
+    // Part b: Multiply Arrays
+    public static void multiplyArrays(int[] x, int[] y) {
+        if (x.length != y.length) {
+            System.out.println("Arrays must be of the same length.");
+            return;
+        }
+        int[] result = new int[x.length];
+        for (int i=0; i < x.length; i++) {
+            result[i] = x[i] * y[i];
+        }
+        System.out.println("Product: " + Arrays.toString(result));
+    }
+
+    // Part c: Bubble Sort Ascending
+    public static void bubbleSortAsc(int[] arr) {
+        for (int i=0; i < arr.length - 1; i++) {
+            for (int j=0; j < arr.length - 1 - i; j++) {
+                if (arr[j] > arr[j+1]) {
+                    int temp = arr[j];
+                    arr[j] = arr[j+1];
+                    arr[j+1] = temp;
+                }
+            }
+        }
+    }
+
+    // Part c: Bubble Sort Descending
+    public static void bubbleSortDesc(int[] arr) {
+        for(int i=0; i < arr.length - 1; i++) {
+            for(int j=0; j < arr.length - 1 - i; j++) {
+                if (arr[j] < arr[j + 1]) {
+                    int temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        // Test calls...
+        findQuadraticRoots(-3, 2);
+        int[] x = {1, 2, 3}, y = {4, 5, 6};
+        multiplyArrays(x, y);
+        int[] arr1 = {3, 2, 5, 4, 9};
+        bubbleSortAsc(arr1);
+        System.out.println("Sorted(Ascending): " + Arrays.toString(arr1));
+        int[] arr2 = {3, 2, 5, 4, 9};
+        bubbleSortDesc(arr2);
+        System.out.println("Sorted (Descending): " + Arrays.toString(arr2));
+    }
+}
+
+Steps: 1. Save as P1.java. 2. Compile: javac P1.java. 3. Run: java P1.
+
+2. Employee Database (E.java / P2.java)
+Modifications: Use single Employee class, use ArrayList, and break logic into specific methods (displayEmployees(), calculateSalesSalary(), getHighestPaidManager()).
+Code (P2.java / E.java):
+import java.util.*;
+
+class Employee {
+    String name, empld, department, designation;
+    int age;
+    double salary;
+
+    public void getDetails (Scanner scanner) {
+        System.out.println("Enter employee details: ");
+        System.out.print("Name: "); name = scanner.nextLine();
+        System.out.print("Employee ID: "); empld = scanner.nextLine();
+        System.out.print("Department: "); department = scanner.nextLine();
+        System.out.print("Designation: "); designation = scanner.nextLine();
+        System.out.print("Age: "); age = scanner.nextInt();
+        System.out.print("Salary: "); salary = scanner.nextDouble();
+        scanner.nextLine(); // Consume newline
+    }
+
+    public void displayDetails() {
+        System.out.printf("%s\t%s\t%s\t%d\t%s\t%.2f\n", name, empld, department, age, designation, salary);
+    }
+}
+
+public class E { // Class name provided in source snippet: E or P2
+    public static void displayEmployees(ArrayList<Employee> employees) {
+        System.out.println("\nEmployee Details: ");
+        System.out.println("Name\tEmployee ID\tDepartment\tAge\tDesignation\tSalary");
+        for (Employee employee: employees) {
+            employee.displayDetails();
+        }
+    }
+
+    public static void calculateSalesSalary(ArrayList<Employee> employees) {
+        double totalSalesSalary = 0;
+        for (Employee employee: employees) {
+            if (employee.department.equalsIgnoreCase("sales")) {
+                totalSalesSalary += employee.salary;
+            }
+        }
+        System.out.printf("\nTotal Salary of Sales Department Employees: %.2f\n", totalSalesSalary);
+    }
+
+    public static void getHighestPaidManager(ArrayList<Employee> employees) {
+        double highestSalary = 0;
+        Employee highestPaidManager = null;
+        for (Employee employee: employees) {
+            if (employee.department.equalsIgnoreCase("purchase") && employee.designation.equalsIgnoreCase("manager")) {
+                if (employee.salary > highestSalary) {
+                    highestSalary = employee.salary;
+                    highestPaidManager = employee;
+                }
+            }
+        }
+        System.out.println("\nHighestPaidManagerin Purchase Department: ");
+        if (highestPaidManager != null) {
+            highestPaidManager.displayDetails();
+        } else {
+            System.out.println("Nomanagerfoundinthepurchase department.");
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enterthenumberofemployees:");
+        int numEmployees = scanner.nextInt();
+        scanner.nextLine();
+
+        ArrayList<Employee>employees=newArrayList<>();
+        for (int i=0; i < numEmployees; i++) {
+            Employee employee = new Employee();
+            System.out.println("\nEnterinformationforEmployee " +(i+1));
+            employee.getDetails(scanner);
+            employees.add(employee);
+        }
+
+        displayEmployees (employees);
+        calculateSalesSalary (employees);
+        getHighestPaidManager (employees);
+        scanner.close();
+    }
+}
+
+Steps: 1. Save as E.java (or P2.java). 2. Compile: javac E.java. 3. Run: java E (or java P2).
+
+3. Complex Numbers (Complex.java)
+Modifications: Override toString() (instead of display()), use Double.compare() for equality check, and Add multiply() and divide() methods.
+Code (Complex.java):
+class Complex {
+    private double real, imag;
+
+    Complex(double real, double imag) {
+        this.real = real;
+        this.imag = imag;
+    }
+
+    Complex add(Complex c) {
+        return new Complex(this.real + c.real, this.imag + c.imag);
+    }
+
+    Complex sub(Complex c) {
+        return new Complex(this.real - c.real, this.imag - c.imag);
+    }
+
+    // Enhancement: Multiply
+    Complex multiply(Complex c) {
+        double realPart = this.real * c.real - this.imag * c.imag;
+        double imagPart = this.real * c.imag + this.imag * c.real;
+        return new Complex(realPart, imagPart);
+    }
+
+    // Enhancement: Divide
+    Complex divide(Complex c) {
+        double denominator = c.real * c.real + c.imag * c.imag;
+        if(denominator == 0) {
+            throw new ArithmeticException("Cannot divide by zero.");
+        }
+        double realPart = (this.real * c.real + this.imag * c.imag) / denominator;
+        double imagPart = (this.imag * c.real - this.real * c.imag) / denominator;
+        return new Complex(realPart, imagPart);
+    }
+
+    // Use Double.compare()
+    boolean comp(Complex c) {
+        return Double.compare(this.real, c.real) == 0 && Double.compare(this.imag, c.imag) == 0;
+    }
+
+    // Override toString()
+    @Override
+    public String toString() {
+        return this.real + " + " + this.imag + "i";
+    }
+
+    public static void main(String[] args) {
+        Complex n1 = new Complex(2, 3);
+        Complex n2 = new Complex (1, 1);
+
+        Complex sum = n1.add(n2);
+        Complex diff = n1.sub(n2);
+        Complex product = n1.multiply(n2);
+        Complex quotient = n1.divide(n2);
+
+        System.out.println("Sum: " + sum);
+        System.out.println("Difference: " + diff);
+        System.out.println("Product: " + product);
+        System.out.println("Quotient: " + quotient);
+        System.out.println("Are n1 and n2 equal? " + n1.comp(n2));
+    }
+}
+
+Steps: 1. Save as Complex.java. 2. Compile: javac Complex.java. 3. Run: java Complex.
+
+4. Inheritance (Main.java)
+Modifications: Replace arrays with ArrayList for dynamic storage and use toString() instead of display().
+Code (Main.java):
+import java.util.*;
+
+class Person {
+    String name, gender;
+    int age;
+
+    Person(String name, String gender, int age) {
+        this.name = name;
+        this.gender = gender;
+        this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "\nName: " + name + "\nGender: " + gender + "\nAge: " + age;
+    }
+}
+
+class Employee extends Person {
+    String company;
+    double salary;
+
+    Employee(String name, String gender, int age, String company, double salary) {
+        super(name, gender, age);
+        this.company = company;
+        this.salary = salary;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "\nCompany: " + company + "\nSalary: " + salary;
+    }
+}
+
+class Student extends Person {
+    String school;
+    double grade;
+
+    Student(String name, String gender, int age, String school, double grade) {
+        super(name, gender, age);
+        this.school = school;
+        this.grade = grade;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "\nSchool: " + school + "\nGrade: " + grade;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Use ArrayList for storage
+        ArrayList<Employee> employees = new ArrayList<>();
+        employees.add(new Employee("John", "Male", 30, "ABC Corp", 50000));
+        employees.add(new Employee("Alice", "Female", 28, "XYZ Ltd", 60000));
+        employees.add(new Employee("Charlie", "Male", 40, "Innovate LLC", 80000));
+
+        ArrayList<Student> students = new ArrayList<>();
+        students.add(new Student("Mark", "Male", 20, "ABC High", 90));
+        students.add(new Student("Lucy", "Female", 22, "XYZ University", 85));
+
+        System.out.println("\nEmployee Details:");
+        for(Employee employee: employees) {
+            System.out.println(employee); // Uses toString()
+        }
+
+        System.out.println("\nStudent Details:");
+        for(Student student: students) {
+            System.out.println(student); // Uses toString()
+        }
+    }
+}
+
+Steps: 1. Save as Main.java. 2. Compile: javac Main.java. 3. Run: java Main.
+
+5. String Comparison (SC.java)
+Modifications: Implement Case-Insensitive comparison, Null-Handling, and comparison by length.
+Code (SC.java):
+class SC {
+    // Compares whole strings (with case-insensitivity, null handling, and length check)
+    static boolean usrstrcmp(String s1, String s2) {
+        if (s1==null || s2==null) { // Null handling
+            return false;
+        }
+        if (s1.length() != s2.length()) { // Compare lengths first
+            return false;
+        }
+        for (int i = 0; i < s1.length(); i++) {
+            if (Character.toLowerCase(s1.charAt(i)) != Character.toLowerCase(s2.charAt(i))) { // Case-insensitive
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // Compares first 'n' characters (with case-insensitivity, null handling, and length check)
+    static boolean usrstrcmp(String s1, String s2, int n) {
+        if (s1==null || s2==null) { // Null handling
+            return false;
+        }
+
+        int 11 = Math.min(n, s1.length()); // Compare lengths up to n
+        int 12 = Math.min(n, s2.length());
+
+        if (11 != 12) { // If effective comparison lengths differ
+            return false;
+        }
+
+        for (int i = 0; i < 11; i++) {
+            if(Character.toLowerCase(s1.charAt(i)) != Character.toLowerCase(s2.charAt(i))) { // Case-insensitive
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        String s1 = "Hello";
+        String s2 = "help";
+        String s3 = null;
+
+        System.out.println("Function for the whole word (case-insensitive): " + usrstrcmp(s1, s2));
+        System.out.println("Function for the first n characters (case-insensitive): " + usrstrcmp(s1, s2, 3));
+        System.out.println("Function with null string: " + usrstrcmp(s1, s3));
+        System.out.println("Function with null string and n comparison: " + usrstrcmp(s1, s3, 3));
+        System.out.println("Function for different length strings: " + usrstrcmp(s1, "Hellooo", 5));
+    }
+}
+
+Steps: 1. Save as SC.java. 2. Compile: javac SC.java. 3. Run: java SC.
+
+6. Bank System (P6.java)
+Modifications: Use Constructors (instead of readDetails()), add Multiple Account Types per Bank (Savings/Current) with different interest rates, and override toString().
+Code (P6.java):
+abstract class Bank {
+    String name;
+    int accountNumber;
+    double balance;
+    String accountType;
+
+    // Use Constructor
+    Bank(String name, int accountNumber, double balance, String accountType) {
+        this.name = name;
+        this.accountNumber = accountNumber;
+        this.balance = balance;
+        this.accountType = accountType;
+    }
+
+    abstract double calcint();
+
+    // Override toString()
+    @Override
+    public String toString() {
+        return String.format("\nName: %s\nAccount Number: %d\nBalance: %.2f\nAccount Type: %s\nInterest Earned: %.2f",
+                name, accountNumber, balance, accountType, calcint());
+    }
+}
+
+class CityBank extends Bank {
+    CityBank(String name, int accountNumber, double balance, String accountType) {
+        super(name, accountNumber, balance, accountType);
+    }
+    @Override
+    double calcint() {
+        if (accountType.equalsIgnoreCase("Savings")) { // Multiple account types
+            return balance * 0.6;
+        } else if (accountType.equalsIgnoreCase("Current")) {
+            return balance * 0.4;
+        }
+        return 0;
+    }
+}
+
+class SBIBank extends Bank {
+    SBIBank(String name, int accountNumber, double balance, String accountType) {
+        super(name, accountNumber, balance, accountType);
+    }
+    @Override
+    double calcint() {
+        if (accountType.equalsIgnoreCase("Savings")) { // Multiple account types
+            return balance * 0.7;
+        } else if (accountType.equalsIgnoreCase("Current")) {
+            return balance * 0.5;
+        }
+        return 0;
+    }
+}
+
+class CanaraBank extends Bank {
+    CanaraBank(String name, int accountNumber, double balance, String accountType) {
+        super(name, accountNumber, balance, accountType);
+    }
+    @Override
+    double calcint() {
+        if(accountType.equalsIgnoreCase("Savings")) { // Multiple account types
+            return balance * 0.65;
+        } elseif(accountType.equalsIgnoreCase("Current")) {
+            return balance * 0.45;
+        }
+        return 0;
+    }
+}
+
+public class P6 {
+    public static void main(String[] args) {
+        Bank[] bankAccounts = {
+            new CityBank("John", 101, 50000, "Savings"),
+            new SBIBank("Jane", 102, 75000, "Current"),
+            new CanaraBank("Mike", 103, 60000, "Savings"),
+        };
+
+        for(Bank account: bankAccounts) {
+            System.out.println(account);
+        }
+    }
+}
+
+Steps: 1. Save as P6.java. 2. Compile: javac P6.java. 3. Run: java P6.
+
+7. Producer-Consumer (P7.java)
+Modifications: Use Bounded Buffer (array capacity 5), Multiple Producers (3) and Consumers (3), and Random Sleep Times.
+Code (P7.java):
+import java.util.*;
+import java.util.concurrent.*;
+
+class P7 {
+    private final int[] buf = new int; // Bounded buffer capacity 5
+    private int in = 0, out = 0, count = 0;
+    private final Random random = new Random();
+
+    // Producer method (synchronized)
+    synchronized void put(int n) throws InterruptedException {
+        while (count == buf.length) { wait(); }
+        buf[in] = n;
+        in = (in + 1) % buf.length;
+        count++;
+        System.out.println("Produced: " + n);
+        notifyAll();
+    }
+
+    // Consumer method (synchronized)
+    synchronized int get() throws InterruptedException {
+        while (count == 0) { wait(); }
+        int item = buf[out];
+        out = (out + 1) % buf.length;
+        count--;
+        System.out.println("Consumed: " + item);
+        notifyAll();
+        return item;
+    }
+
+    public static void main(String[] args) {
+        P7 pc = new P7();
+        // Use Executor service for multiple threads
+        ExecutorService executor = Executors.newFixedThreadPool(6); // 3 producers, 3 consumers
+
+        // Multiple producer threads
+        for (int i=0; i < 3; i++) {
+            int producerId = i + 1;
+            executor.submit(() -> {
+                try {
+                    for (int i1=0; i1 < 10; i1++) {
+                        int item = producerId * 10 + i1;
+                        pc.put(item);
+                        Thread.sleep(pc.random.nextInt(500)); // Random sleep
+                    }
+                } catch (InterruptedException ignored) {}
+            });
+        }
+
+        // Multiple consumer threads
+        for (int i=0; i < 3; i++) {
+            executor.submit(() -> {
+                try {
+                    while (true) {
+                        pc.get();
+                        Thread.sleep(pc.random.nextInt(1000)); // Random sleep
+                    }
+                } catch (InterruptedException ignored) {}
+            });
+        }
+    }
+}
+
+Steps: 1. Save as P7.java. 2. Compile: javac P7.java. 3. Run: java P7.
+
+8. Division with Exception Handling (P8.java)
+Modifications: Implement Continuous Input Loop (retry without restarting) and use a Separate Method for Input Validation.
+Code (P8.java):
+import java.util.*;
+
+class P8 {
+
+    // Separate Method for Input Validation
+    public static boolean isValidInput(int numerator, int denominator) {
+        if (numerator < 0 || denominator <= 0) {
+            return false;
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        boolean validInput = false;
+
+        // Continuous Input Loop
+        while (!validInput) {
+            try {
+                System.out.println("Enter two positive integers (numerator and denominator): ");
+                int numerator = sc.nextInt();
+                int denominator = sc.nextInt();
+
+                if (isValidInput(numerator, denominator)) {
+                    validInput = true;
+                    double result = (double) numerator / denominator;
+                    System.out.println("Result: " + result);
+                } else {
+                    throw new IllegalArgumentException("Input must be positive integers with a non-zero denominator.");
+                }
+
+            } catch (ArithmeticException e) {
+                System.out.println("Error: Cannot divide by zero.");
+            } catch (IllegalArgumentException e) {
+                System.out.println("Error: " + e.getMessage());
+            } catch (InputMismatchException e) {
+                System.out.println("Error: Please enter valid integers.");
+                sc.nextLine(); // Clear the buffer
+            }
+        }
+        sc.close();
+    }
+}
+
+Steps: 1. Save as P8.java. 2. Compile: javac P8.java. 3. Run: java P8.
+
+9. Interface Conversions (P9.java)
+Modifications: Add More Conversion Types and use Method Overloading for multiple convert methods.
+Code (P9.java):
+interface Compute {
+    double convert(double v);
+}
+
+class GB2B implements Compute {
+    public double convert(double gb) { // Standard conversion (GB to Bytes)
+        return gb * 1073741824;
+    }
+
+    // Overloaded method (Kilobytes to Bytes)
+    public double convert(int kb) {
+        return kb * 1024;
+    }
+}
+
+class E2R implements Compute {
+    public double convert(double euro) { // Standard conversion (Euro to Rupees)
+        return euro * 90.85;
+    }
+
+    // Overloaded method (USD to INR)
+    public double convert(double usd, boolean isUSD) {
+        return usd * 82.75;
+    }
+}
+
+public class P9 {
+    public static void main(String[] args) {
+        Compute fc = new GB2B();
+        Compute sc = new E2R();
+
+        System.out.println("2 GB = " + fc.convert(2) + " Bytes.");
+        System.out.println("50 Euros = " + sc.convert(50) + " Rupees.");
+
+        GB2B gb2b = new GB2B();
+        E2R e2r = new E2R();
+
+        // Testing overloaded methods
+        System.out.println("500 Kilobytes = " + gb2b.convert(500) + " Bytes.");
+        System.out.println("100 USD = " + e2r.convert(100, true) + " INR.");
+    }
+}
+
+Steps: 1. Save as P9.java. 2. Compile: javac P9.java. 3. Run: java P9.
+
+10. JDBC CRUD Operations (JDBCCRUDDemo.java)
+This program demonstrates Create, Read, Update, and Delete operations using JDBC.
+Code (JDBCCRUDDemo.java):
+import java.sql.*;
+import java.util.Scanner;
+
+public class JDBCCRUDDemo {
+    // NOTE: Update these credentials for your MySQL setup
+    static final String URL = "jdbc:mysql://localhost:3306/demo";
+    static final String USER = "root";
+    static final String PASS = "password";
+
+    // (Helper scanner required if running outside specific IDE context)
+    static Scanner sc = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        while (true) {
+            System.out.println("\n-------- JDBC CRUD MENU --------");
+            System.out.println("1. INSERT (Create)");
+            System.out.println("2. SELECT (Read)");
+            System.out.println("3. UPDATE");
+            System.out.println("4. DELETE");
+            System.out.println("5. EXIT");
+            System.out.print("Choose an option: ");
+            int choice = sc.nextInt();
+
+            switch (choice) {
+                case 1: insertRecord(); break;
+                case 2: readRecords(); break;
+                case 3: updateRecord(); break;
+                case 4: deleteRecord(); break;
+                case 5: System.out.println("Exiting..."); System.exit(0);
+                default: System.out.println("Invalid choice!");
+            }
+        }
+    }
+
+    // CREATE operation (partial code shown, full implementation requires input reading)
+    public static void insertRecord() {
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
+            String sql = "INSERT INTO students (id, name, age) VALUES (?, ?, ?)";
+            PreparedStatement pst = conn.prepareStatement(sql);
+            // ... Input reading logic ...
+            int rows = pst.executeUpdate();
+            System.out.println(rows + " record inserted successfully!");
+        } catch (Exception e) { e.printStackTrace(); }
+    }
+
+    // READ operation
+    public static void readRecords() {
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
+            String sql = "SELECT * FROM students";
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            System.out.println("\n--- STUDENT RECORDS ---");
+            while (rs.next()) {
+                System.out.println("ID: " + rs.getInt("id") + ", Name: " + rs.getString("name") + ", Age: " + rs.getInt("age"));
+            }
+        } catch (Exception e) { e.printStackTrace(); }
+    }
+
+    // UPDATE operation (partial code shown, full implementation requires input reading)
+    public static void updateRecord() {
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
+            String sql = "UPDATE students SET name=?, age=? WHERE id=?";
+            PreparedStatement pst = conn.prepareStatement(sql);
+            // ... Input reading logic ...
+            int rows = pst.executeUpdate();
+            System.out.println(rows + " record updated successfully!");
+        } catch (Exception e) { e.printStackTrace(); }
+    }
+
+    // DELETE operation (partial code shown, full implementation requires input reading)
+    public static void deleteRecord() {
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
+            String sql = "DELETE FROM students WHERE id=?";
+            PreparedStatement pst = conn.prepareStatement(sql);
+            // ... Input reading logic ...
+            int rows = pst.executeUpdate();
+            System.out.println(rows + " record deleted successfully!");
+        } catch (Exception e) { e.printStackTrace(); }
+    }
+}
+
+Steps: 1. Set up MySQL database demo with table students. 2. Download and add the MySQL JDBC Connector JAR to the project's build path. 3. Save code as JDBCCRUDDemo.java. 4. Compile and Run (ideally in an environment like Eclipse).
+
+11. Java Servlet (VoterSrv.java)
+This program uses a Servlet to check if a user is eligible to visit a site based on age (18+).
+Code: index.html (Input Form)
+<html>
+<head><title>VoterApp</title></head>
+<body>
+<form action= "http://localhost:8080/CheckAge/check" method="get">
+<fieldset style="width:20%; background-color:#80ffcc">
+<table>
+<tr><td>Name</td><td><input type="text" name="name"></td></tr>
+<tr><td>Age</td><td><input type="text" name="age"></td></tr>
+<tr><td></td><td><input type = "submit" value="Check Eligibility"></td></tr>
+</table>
+</fieldset>
+</form>
+</body>
+</html>
+
+Code: VoterSrv.java (Servlet Logic)
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+
+public class VoterSrv extends HttpServlet {
+    public void service(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+        res.setContentType("text/html");
+        PrintWriter pw = res.getWriter();
+
+        String name = req.getParameter("name");
+        int age = Integer.parseInt(req.getParameter("age"));
+
+        if (age >= 18) {
+            pw.println("<font color='green' size='4'>Welcome "+name+" to this site</font>");
+        } else {
+            pw.println("<font color='red' size='4'>Hello "+name+", you are not authorized to visit the site</font>");
+        }
+
+        pw.println("<br><br><a href= 'index.html'>back</a>");
+        pw.close();
+    }
+}
+
+Steps: 1. Create a Dynamic Web Project (e.g., CheckAge). 2. Place index.html in WebContent/. 3. Place VoterSrv.java in src/. 4. Map the Servlet to the URL pattern /check in web.xml. 5. Deploy and run the project on Tomcat.
+
+12. JSP Session Management (Session1/Session2/Logout)
+This program uses JSP pages to store the user's name and the login time in the session and calculates the duration upon logout.
+Code: Session1.jsp (Input)
+<%@ page language="java" %>
+<html>
+<body>
+<h2>Enter Your Name</h2>
+<form action="Session2.jsp" method="get">
+Name: <input type="text" name="uname" required>
+<br><br>
+<input type="submit" value="Submit">
+</form>
+</body>
+</html>
+
+Code: Session2.jsp (Welcome & Session Start)
+<%@ page language="java" import="java.util.*" %>
+<%
+String name = request.getParameter("uname");
+// Save name and start time into the session
+if (name != null) {
+session.setAttribute("user", name);
+session.setAttribute("startTime", new Date().getTime());
+}
+name = (String) session.getAttribute("user");
+long start = (Long) session.getAttribute("startTime");
+%>
+<html>
+<body>
+<p align="right">
+Start Time: <%= new Date(start).toString() %>
+</p>
+<h2>Hello <%= name %>!</h2>
+<form action="Logout.jsp" method="get">
+<input type="submit" value="Logout">
+</form>
+</body>
+</html>
+
+Code: Logout.jsp (Session End & Duration)
+<%@ page language="java" import="java.util.*" %>
+<%
+String name = (String) session.getAttribute("user");
+long start = (Long) session.getAttribute("startTime");
+long end = new Date().getTime();
+long duration = end - start;
+long seconds = duration / 1000;
+long minutes = duration / (1000 * 60);
+long hours = duration / (1000 * 60 * 60);
+session.invalidate();                 // logout
+%>
+<html>
+<body>
+<h2>Thank You <%= name %>!</h2>
+Session Duration:
+<br>
+<%= hours %> hours,
+<%= minutes %> minutes,
+<%= seconds %> seconds
+</body>
+</html>
+
+Steps: 1. Create a Dynamic Web Project (e.g., JSPSessionDemo). 2. Create the three JSP files in the WebContent/ folder. 3. Deploy and run the project on Tomcat.
+
