@@ -51,6 +51,13 @@ for u in "${URLs_JAVA[@]}"; do sudo wget -P "$JAVA" "$u"; done
 
 echo "All files downloaded into structured folders under $BASE"
 
+echo "Enabling SSH access..."
+sudo ufw allow ssh
+sudo ufw allow 22/tcp
+sudo ufw --force enable
+sudo systemctl enable ssh
+sudo systemctl start ssh
+echo "SSH is now enabled and port 22 is open."
 
 
 
