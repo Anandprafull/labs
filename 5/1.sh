@@ -13,6 +13,8 @@ URLs_ACN=(
   "https://raw.githubusercontent.com/0elon/1/main/acn/3.txt"
   "https://raw.githubusercontent.com/0elon/1/main/acn/4.txt"
   "https://raw.githubusercontent.com/0elon/1/main/acn/5.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/acn/6.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/acn/7.txt"
 )
 
 URLs_CNS=(
@@ -43,6 +45,21 @@ URLs_JAVA=(
   "https://raw.githubusercontent.com/0elon/1/main/java/P10.txt"
   "https://raw.githubusercontent.com/0elon/1/main/java/P11.txt"
   "https://raw.githubusercontent.com/0elon/1/main/java/P12.txt"
+  
+  "https://raw.githubusercontent.com/0elon/1/main/java/1.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/java/2.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/java/3.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/java/4.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/java/5.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/java/6.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/java/7.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/java/8.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/java/9.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/java/10.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/java/11.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/java/12.txt"
+
+  
 )
 
 for u in "${URLs_ACN[@]}";  do sudo wget -P "$ACN" "$u";  done
