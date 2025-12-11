@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BASE="/logs"
+BASE="/c"
 ACN="$BASE/acn"
 CNS="$BASE/cns"
 JAVA="$BASE/java"
