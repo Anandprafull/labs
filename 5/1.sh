@@ -27,6 +27,7 @@ URLs_CNS=(
   "https://raw.githubusercontent.com/0elon/1/main/cns/b2.txt"
   "https://raw.githubusercontent.com/0elon/1/main/cns/b3.txt"
   "https://raw.githubusercontent.com/0elon/1/main/cns/b4.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/cns/b5.txt"
   "https://raw.githubusercontent.com/0elon/1/main/cns/h.txt"
 )
 
