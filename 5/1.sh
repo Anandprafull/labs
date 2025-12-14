@@ -15,6 +15,8 @@ URLs_ACN=(
   "https://raw.githubusercontent.com/0elon/1/main/acn/5.txt"
   "https://raw.githubusercontent.com/0elon/1/main/acn/6.txt"
   "https://raw.githubusercontent.com/0elon/1/main/acn/7.txt"
+  "https://raw.githubusercontent.com/0elon/1/main/acn/8.txt"
+
 )
 
 URLs_CNS=(
